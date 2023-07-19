@@ -1,4 +1,4 @@
-import CodeMind from './components/CodeMind'
+import CodeMind from './components/code-mind'
 
 function App() {
 	return <CodeMind />

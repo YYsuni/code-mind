@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html,
+body,
+#root {
+	height: 100%;
+}
+
+*:focus-visible {
+	@apply outline-primary;
+}

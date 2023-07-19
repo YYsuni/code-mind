@@ -3,6 +3,10 @@ export default {
 	content: ['./src/**/*.{html,tsx,jsx,css}', './index.html'],
 	theme: {
 		extend: {
+			colors: {
+				primary: 'blue',
+				edge: '#eee'
+			},
 			screens: {
 				'max-xl': { max: '1280px' },
 				'max-lg': { max: '1024px' },
