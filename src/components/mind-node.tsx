@@ -9,8 +9,6 @@ interface Props {
 	setParentChildren?: Dispatch<MindNode[]>
 }
 
-let _countID = 1
-
 export function MindNode({ node, parentRef, parentChildren, setParentChildren, index }: Props) {
 	const nodeRef = useRef<HTMLDivElement>(null)
 	const [children, setChildren] = useState(node.children)
@@ -19,8 +17,19 @@ export function MindNode({ node, parentRef, parentChildren, setParentChildren, i
 		<div
 			onKeyDown={event => {
 				if (event.key === 'Enter' && parentChildren && setParentChildren) {
-					parentChildren.splice((index || 0) + 1, 0, { id: String(_countID++), value: 'Example' + _countID })
+					parentChildren.splice((index || 0) + 1, 0, {
+						id: String(Date.now()),
+						value: 'Example ' + (parentChildren.length + 1)
+					})
 					setParentChildren(parentChildren.slice())
+				} else if (event.key === 'Tab') {
+					event.preventDefault()
+
+					if (!Array.isArray(children)) {
+						setChildren([{ id: String(Date.now()), value: 'Example 1' }])
+					} else {
+						setChildren([...children, { id: String(Date.now()), value: 'Example ' + (children.length + 1) }])
+					}
 				}
 			}}
 			ref={nodeRef}
@@ -28,7 +37,7 @@ export function MindNode({ node, parentRef, parentChildren, setParentChildren, i
 			tabIndex={0}>
 			{node.value}
 
-			<MindEdge childNode={nodeRef} parentNode={parentRef!} />
+			<MindEdge childNode={nodeRef} parentNode={parentRef!} parentChildren={parentChildren} />
 		</div>
 	)
 
