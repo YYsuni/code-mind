@@ -4,8 +4,10 @@ export default {
 	theme: {
 		extend: {
 			colors: {
-				primary: 'blue',
-				edge: '#eee'
+				bg: '#FEF3E1',
+				text: 'black',
+				focus: '#51A8B9',
+				edge: '#7597E8'
 			},
 			screens: {
 				'max-xl': { max: '1280px' },
