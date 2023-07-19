@@ -5,3 +5,4 @@ declare type MindNode = {
 }
 
 declare type NodeRef = React.RefObject<HTMLDivElement>
+declare type PropsWithChildren = React.PropsWithChildren

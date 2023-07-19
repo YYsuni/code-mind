@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@use-gesture/react':
+    specifier: ^10.2.27
+    version: 10.2.27(react@18.2.0)
   clsx:
     specifier: ^2.0.0
     version: 2.0.0
@@ -942,6 +945,19 @@ packages:
       '@typescript-eslint/types': 5.59.11
       eslint-visitor-keys: 3.4.1
     dev: true
+
+  /@use-gesture/core@10.2.27:
+    resolution: {integrity: sha512-V4XV7hn9GAD2MYu8yBBVi5iuWBsAMfjPRMsEVzoTNGYH72tf0kFP+OKqGKc8YJFQIJx6yj+AOqxmEHOmx2/MEA==}
+    dev: false
+
+  /@use-gesture/react@10.2.27(react@18.2.0):
+    resolution: {integrity: sha512-7E5vnWCxeslWlxwZ8uKIcnUZVMTRMZ8cvSnLLKF1NkyNb3PnNiAzoXM4G1vTKJKRhgOTeI6wK1YsEpwo9ABV5w==}
+    peerDependencies:
+      react: '>= 16.8.0'
+    dependencies:
+      '@use-gesture/core': 10.2.27
+      react: 18.2.0
+    dev: false
 
   /@vitejs/plugin-react-swc@3.3.2(vite@4.3.9):
     resolution: {integrity: sha512-VJFWY5sfoZerQRvJrh518h3AcQt6f/yTuWn4/TRB+dqmYU0NX1qz7qM5Wfd+gOQqUzQW4gxKqKN3KpE/P3+zrA==}
