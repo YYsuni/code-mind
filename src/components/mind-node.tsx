@@ -33,7 +33,7 @@ export function MindNode({ node, parentRef, parentChildren, setParentChildren, i
 				}
 			}}
 			ref={nodeRef}
-			className='w-max relative max-w-[200px] border py-2 px-4 focus:outline-primary focus:outline'
+			className='w-max relative max-w-[200px] border py-2 px-4 outline-primary focus:outline outline-2 outline-offset-2'
 			tabIndex={0}>
 			{node.value}
 

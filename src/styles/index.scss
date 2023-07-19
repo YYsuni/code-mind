@@ -9,5 +9,5 @@ body,
 }
 
 *:focus-visible {
-	@apply outline-primary;
+	@apply outline-primary outline-offset-2;
 }
