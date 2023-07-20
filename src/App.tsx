@@ -8,10 +8,7 @@ function App() {
 				<img src='/logo.svg' className='h-4' />
 			</header>
 
-			<a
-				href='https://github.com/YYsuni/code-mind'
-				className='fixed top-4 right-4 border drop-shadow z-10 border-#2 p-1 rounded text-#1'
-				target='_blank'>
+			<a href='https://github.com/YYsuni/code-mind' className='fixed top-4 right-4 z-10 p-1 text-#1' target='_blank'>
 				<GithubSVG className='w-4 h-4' />
 			</a>
 

@@ -16,7 +16,7 @@ Xmind is the best mind mapping tool I have used, but it tends to freeze after wo
 - [x]  Fixed connection line 01
 - [x]  Focus on newly generated node
 - [ ]  More connection line styles
-- [ ]  Editable content
+- [x]  Editable content
 - [ ]  Draggable
 - [ ]  Save feature
 - [ ]  Restyle
