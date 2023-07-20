@@ -2,6 +2,7 @@ import { Dispatch, useCallback, useContext, useEffect, useRef, useState } from '
 import MindEdge from './mind-edge'
 import { MindContext } from './code-mind'
 import TextareaAutosize from 'react-textarea-autosize'
+import { getTextWidth } from '../utils'
 
 interface Props {
 	index?: number
@@ -19,9 +20,15 @@ export function MindNode({ node: _node, parentRef, parentChildren, setParentChil
 
 	const [value, setValue] = useState(node.value)
 	const [editable, setEditable] = useState(false)
+	const [dynamicWidth, setDynamicWidth] = useState(getTextWidth(value) + 64 + 16)
 	useEffect(() => {
 		updateLayout()
 	}, [editable])
+	useEffect(() => {
+		const width = getTextWidth(value) + 64 + 16
+
+		if (width <= defaultMaxWidth + 16) setDynamicWidth(width)
+	}, [value])
 
 	const [children, setChildren] = useState(node.children)
 
@@ -93,8 +100,8 @@ export function MindNode({ node: _node, parentRef, parentChildren, setParentChil
 						generateNextSibling()
 					}
 				}}
-				className='py-4 px-8 rounded resize-none w-max block bg-white/90 font-medium outline-focus focus:outline outline-2 outline-offset-2'
-				style={{ maxWidth: defaultMaxWidth }}
+				className='py-4 px-8 rounded resize-none block bg-white/90 font-medium outline-focus focus:outline outline-2 outline-offset-2'
+				style={{ maxWidth: defaultMaxWidth, width: dynamicWidth }}
 				autoFocus
 			/>
 

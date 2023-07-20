@@ -8,7 +8,7 @@ export default function MindContainer({ children }: PropsWithChildren) {
 	const [offset_wheel, setOffset_wheel] = useState([0, 0])
 	const containerRef = useRef<HTMLDivElement>(null)
 
-	// Prevent Default
+	// Prevent default gesture event
 	useEffect(() => {
 		const handler = (e: Event) => e.preventDefault()
 		document.addEventListener('gesturestart', handler)
@@ -36,7 +36,8 @@ export default function MindContainer({ children }: PropsWithChildren) {
 		},
 		{
 			target: containerRef,
-			pinch: { scaleBounds: { min: 0.5, max: 2 }, rubberband: true }
+			pinch: { scaleBounds: { min: 0.5, max: 2 }, rubberband: true },
+			drag: { pointer: { keys: false } }
 		}
 	)
 
