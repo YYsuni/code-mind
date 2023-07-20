@@ -1,4 +1,4 @@
-import { Dispatch, useCallback, useContext, useRef, useState } from 'react'
+import { Dispatch, useCallback, useContext, useEffect, useRef, useState } from 'react'
 import MindEdge from './mind-edge'
 import { MindContext } from './code-mind'
 
@@ -10,18 +10,20 @@ interface Props {
 	setParentChildren?: Dispatch<MindNode[]>
 }
 
-export function MindNode({ node, parentRef, parentChildren, setParentChildren, index }: Props) {
+export function MindNode({ node: _node, parentRef, parentChildren, setParentChildren, index }: Props) {
 	const { distance, gap, updateLayout } = useContext(MindContext)
 
+	const [node, setNode] = useState(_node)
 	const nodeRef = useRef<HTMLDivElement>(null)
 	const [children, setChildren] = useState(node.children)
 
 	const generateNextSibling = useCallback(() => {
 		if (parentChildren && setParentChildren) {
 			const nextIndex = (index || 0) + 1
-			const nextNode = {
+			const nextNode: MindNode = {
 				id: String(Date.now()),
-				value: 'Example ' + (parentChildren.length + 1)
+				value: 'Example ' + (parentChildren.length + 1),
+				isNew: true
 			}
 			parentChildren.splice(nextIndex, 0, nextNode)
 			setParentChildren(parentChildren.slice())
@@ -31,12 +33,19 @@ export function MindNode({ node, parentRef, parentChildren, setParentChildren, i
 
 	const generateChild = useCallback(() => {
 		if (!Array.isArray(children)) {
-			setChildren([{ id: String(Date.now()), value: 'Example 1' }])
+			setChildren([{ id: String(Date.now()), value: 'Example 1', isNew: true }])
 		} else {
-			setChildren([...children, { id: String(Date.now()), value: 'Example ' + (children.length + 1) }])
+			setChildren([...children, { id: String(Date.now()), value: 'Example ' + (children.length + 1), isNew: true }])
 		}
 		updateLayout()
 	}, [children])
+
+	useEffect(() => {
+		if (node.isNew) {
+			setTimeout(() => nodeRef.current?.focus(), 0)
+			setNode({ ...node, isNew: false })
+		}
+	}, [node])
 
 	const SingleNode = (
 		<div
