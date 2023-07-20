@@ -1,4 +1,4 @@
-import { Dispatch, useContext, useRef, useState } from 'react'
+import { Dispatch, useCallback, useContext, useRef, useState } from 'react'
 import MindEdge from './mind-edge'
 import { MindContext } from './code-mind'
 
@@ -11,28 +11,41 @@ interface Props {
 }
 
 export function MindNode({ node, parentRef, parentChildren, setParentChildren, index }: Props) {
-	const { distance, gap } = useContext(MindContext)
+	const { distance, gap, updateLayout } = useContext(MindContext)
 
 	const nodeRef = useRef<HTMLDivElement>(null)
 	const [children, setChildren] = useState(node.children)
+
+	const generateNextSibling = useCallback(() => {
+		if (parentChildren && setParentChildren) {
+			const nextIndex = (index || 0) + 1
+			const nextNode = {
+				id: String(Date.now()),
+				value: 'Example ' + (parentChildren.length + 1)
+			}
+			parentChildren.splice(nextIndex, 0, nextNode)
+			setParentChildren(parentChildren.slice())
+			updateLayout()
+		}
+	}, [parentChildren, index])
+
+	const generateChild = useCallback(() => {
+		if (!Array.isArray(children)) {
+			setChildren([{ id: String(Date.now()), value: 'Example 1' }])
+		} else {
+			setChildren([...children, { id: String(Date.now()), value: 'Example ' + (children.length + 1) }])
+		}
+		updateLayout()
+	}, [children])
 
 	const SingleNode = (
 		<div
 			onKeyDown={event => {
 				if (event.key === 'Enter' && parentChildren && setParentChildren) {
-					parentChildren.splice((index || 0) + 1, 0, {
-						id: String(Date.now()),
-						value: 'Example ' + (parentChildren.length + 1)
-					})
-					setParentChildren(parentChildren.slice())
+					generateNextSibling()
 				} else if (event.key === 'Tab') {
 					event.preventDefault()
-
-					if (!Array.isArray(children)) {
-						setChildren([{ id: String(Date.now()), value: 'Example 1' }])
-					} else {
-						setChildren([...children, { id: String(Date.now()), value: 'Example ' + (children.length + 1) }])
-					}
+					generateChild()
 				}
 			}}
 			ref={nodeRef}

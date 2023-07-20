@@ -42,11 +42,9 @@ export default function MindContainer({ children }: PropsWithChildren) {
 
 	return (
 		<div
-			className='relative w-full h-full code-mind flex justify-center items-center cursor-grab touch-none'
+			className='relative w-full h-full code-mind flex justify-center items-center cursor-grab touch-none overflow-hidden'
 			ref={containerRef}>
 			<div className='code-mind--center relative flex justify-center items-center'>
-				<span className='w-2 h-2 bg-red-50'></span>
-
 				<div
 					className='absolute'
 					style={{

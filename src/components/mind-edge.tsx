@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default function MindEdge({ parentNode, childNode, parentChildren }: Props) {
-	const { distance } = useContext(MindContext)
+	const { distance, layoutFlag } = useContext(MindContext)
 
 	const [height, setHeight] = useState(0)
 
@@ -22,21 +22,27 @@ export default function MindEdge({ parentNode, childNode, parentChildren }: Prop
 
 			setHeight(height)
 		}
-	}, [parentChildren])
+	}, [parentChildren, layoutFlag])
 
 	const h = Math.abs(height)
 
 	if (parentNode?.current)
-		return (
-			<svg
-				className={clsx(
-					'absolute left-0 -translate-x-full top-1/2 w-8 text-edge z-[-1]',
-					height < 0 && '-scale-y-100 -translate-y-full'
-				)}
-				stroke='currentColor'
-				viewBox={`0 0 ${distance} ${h}`}>
-				<path d={`M0 ${h} L${distance} 0`} />
-			</svg>
-		)
+		if (height)
+			return (
+				<svg
+					className={clsx(
+						'absolute left-0 -translate-x-full top-1/2 text-edge',
+						height < 0 && '-scale-y-100 -translate-y-full'
+					)}
+					stroke='currentColor'
+					viewBox={`0 0 ${distance} ${h}`}
+					style={{ width: distance, height: h }}>
+					<path d={`M0 ${h} L${distance} 0`} strokeWidth='2' />
+				</svg>
+			)
+		else
+			return (
+				<div className='border-t-2 border-edge absolute left-0 -translate-x-full top-1/2' style={{ width: distance }} />
+			)
 	return null
 }
