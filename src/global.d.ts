@@ -3,6 +3,7 @@ declare type MindNode = {
 	value: string
 	children?: MindNode[]
 	isNew?: boolean
+	isFirstEdit?: boolean
 }
 
 declare type NodeRef = React.RefObject<HTMLDivElement>

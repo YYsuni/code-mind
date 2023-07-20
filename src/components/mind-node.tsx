@@ -19,7 +19,14 @@ export function MindNode({ node: _node, parentRef, parentChildren, setParentChil
 	const nodeRef = useRef<HTMLDivElement>(null)
 
 	const [value, setValue] = useState(node.value)
-	const [editable, setEditable] = useState(false)
+	const [editable, _setEditable] = useState(false)
+	const setEditable = useCallback((bool: boolean) => {
+		if (node.isFirstEdit && bool === true) {
+			setValue('')
+			node.isFirstEdit = false
+		}
+		_setEditable(bool)
+	}, [])
 	const [dynamicWidth, setDynamicWidth] = useState(getTextWidth(value) + 64 + 16)
 	useEffect(() => {
 		updateLayout()
@@ -38,7 +45,8 @@ export function MindNode({ node: _node, parentRef, parentChildren, setParentChil
 			const nextNode: MindNode = {
 				id: String(Date.now()),
 				value: 'Example ' + (parentChildren.length + 1),
-				isNew: true
+				isNew: true,
+				isFirstEdit: true
 			}
 			parentChildren.splice(nextIndex, 0, nextNode)
 			setParentChildren(parentChildren.slice())
@@ -48,9 +56,12 @@ export function MindNode({ node: _node, parentRef, parentChildren, setParentChil
 
 	const generateChild = useCallback(() => {
 		if (!Array.isArray(children)) {
-			setChildren([{ id: String(Date.now()), value: 'Example 1', isNew: true }])
+			setChildren([{ id: String(Date.now()), value: 'Example 1', isNew: true, isFirstEdit: true }])
 		} else {
-			setChildren([...children, { id: String(Date.now()), value: 'Example ' + (children.length + 1), isNew: true }])
+			setChildren([
+				...children,
+				{ id: String(Date.now()), value: 'Example ' + (children.length + 1), isNew: true, isFirstEdit: true }
+			])
 		}
 		updateLayout()
 	}, [children])
