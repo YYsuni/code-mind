@@ -1,6 +1,10 @@
-import { useEffect, useRef, useState } from 'react'
+import { createContext, useEffect, useRef, useState } from 'react'
 
 import { useGesture } from '@use-gesture/react'
+
+export const ContainerContext = createContext({
+	scale: 1
+})
 
 export default function MindContainer({ children }: PropsWithChildren) {
 	const [scale, setScale] = useState(1)
@@ -42,19 +46,21 @@ export default function MindContainer({ children }: PropsWithChildren) {
 	)
 
 	return (
-		<div
-			className='relative w-full h-full code-mind flex justify-center items-center cursor-grab touch-none overflow-hidden'
-			ref={containerRef}>
-			<div className='code-mind--center relative flex justify-center items-center'>
-				<div
-					className='absolute'
-					style={{
-						scale: String(scale),
-						translate: `${offset_drag[0] + offset_wheel[0]}px ${offset_drag[1] + offset_wheel[1]}px`
-					}}>
-					{children}
+		<ContainerContext.Provider value={{ scale }}>
+			<div
+				className='relative w-full h-full code-mind flex justify-center items-center cursor-grab touch-none overflow-hidden'
+				ref={containerRef}>
+				<div className='code-mind--center relative flex justify-center items-center'>
+					<div
+						className='absolute'
+						style={{
+							scale: String(scale),
+							translate: `${offset_drag[0] + offset_wheel[0]}px ${offset_drag[1] + offset_wheel[1]}px`
+						}}>
+						{children}
+					</div>
 				</div>
 			</div>
-		</div>
+		</ContainerContext.Provider>
 	)
 }
