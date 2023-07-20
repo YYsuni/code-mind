@@ -98,6 +98,9 @@ export function MindNode({ node: _node, parentRef, parentChildren, setParentChil
 					} else if (event.key === 'Enter' && !event.shiftKey && parentChildren && setParentChildren) {
 						setEditable(false)
 						setTimeout(() => nodeRef.current?.focus())
+					} else if (event.key === 'Tab') {
+						event.preventDefault()
+						generateChild()
 					}
 				}}
 				className='py-4 px-8 rounded resize-none block bg-white/90 font-medium outline-focus focus:outline outline-2 outline-offset-2'
