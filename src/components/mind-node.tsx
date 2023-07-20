@@ -1,5 +1,6 @@
-import { Dispatch, useRef, useState } from 'react'
+import { Dispatch, useContext, useRef, useState } from 'react'
 import MindEdge from './mind-edge'
+import { MindContext } from './code-mind'
 
 interface Props {
 	index?: number
@@ -10,6 +11,8 @@ interface Props {
 }
 
 export function MindNode({ node, parentRef, parentChildren, setParentChildren, index }: Props) {
+	const { distance, gap } = useContext(MindContext)
+
 	const nodeRef = useRef<HTMLDivElement>(null)
 	const [children, setChildren] = useState(node.children)
 
@@ -33,8 +36,8 @@ export function MindNode({ node, parentRef, parentChildren, setParentChildren, i
 				}
 			}}
 			ref={nodeRef}
-			className='w-max bg-white/90 font-medium rounded relative max-w-[200px] py-4 px-8 outline-focus focus:outline outline-2 outline-offset-2'
-			tabIndex={0}>
+			tabIndex={0}
+			className='w-max bg-white/90 font-medium rounded shrink-0 relative max-w-[200px] py-4 px-8 outline-focus focus:outline outline-2 outline-offset-2'>
 			{node.value}
 
 			<MindEdge childNode={nodeRef} parentNode={parentRef!} parentChildren={parentChildren} />
@@ -43,9 +46,9 @@ export function MindNode({ node, parentRef, parentChildren, setParentChildren, i
 
 	if (Array.isArray(children) && children.length > 0) {
 		return (
-			<div className='flex gap-x-8 items-center'>
+			<div className='flex items-center' style={{ columnGap: distance }}>
 				{SingleNode}
-				<div className='space-y-4'>
+				<div className='flex flex-col' style={{ rowGap: gap }}>
 					{children.map((item, index) => (
 						<MindNode
 							key={item.id}

@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import clsx from 'clsx'
+import { MindContext } from './code-mind'
 
 interface Props {
 	parentNode?: NodeRef
@@ -8,6 +9,8 @@ interface Props {
 }
 
 export default function MindEdge({ parentNode, childNode, parentChildren }: Props) {
+	const { distance } = useContext(MindContext)
+
 	const [height, setHeight] = useState(0)
 
 	useEffect(() => {
@@ -27,12 +30,12 @@ export default function MindEdge({ parentNode, childNode, parentChildren }: Prop
 		return (
 			<svg
 				className={clsx(
-					'absolute left-[-1px] -translate-x-full top-1/2 w-8 text-edge z-[-1]',
+					'absolute left-0 -translate-x-full top-1/2 w-8 text-edge z-[-1]',
 					height < 0 && '-scale-y-100 -translate-y-full'
 				)}
 				stroke='currentColor'
-				viewBox={`0 0 32 ${h}`}>
-				<path d={`M0 ${h} L32 0`} />
+				viewBox={`0 0 ${distance} ${h}`}>
+				<path d={`M0 ${h} L${distance} 0`} />
 			</svg>
 		)
 	return null

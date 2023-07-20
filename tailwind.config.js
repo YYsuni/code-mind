@@ -3,6 +3,9 @@ export default {
 	content: ['./src/**/*.{html,tsx,jsx,css}', './index.html'],
 	theme: {
 		extend: {
+			fontFamily: {
+				sans: ['Poppins', 'sans-serif']
+			},
 			colors: {
 				bg: '#FEF3E1',
 				text: 'black',
