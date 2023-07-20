@@ -25,6 +25,13 @@ export function MindNode({ node: _node, parentRef, parentChildren, setParentChil
 			setValue('')
 			node.isFirstEdit = false
 		}
+		if (bool === true) {
+			setTimeout(
+				// @ts-ignore
+				() => nodeRef.current?.setSelectionRange(-1, -1),
+				0
+			)
+		}
 		_setEditable(bool)
 	}, [])
 	const [dynamicWidth, setDynamicWidth] = useState(getTextWidth(value) + 64 + 16)
@@ -89,7 +96,7 @@ export function MindNode({ node: _node, parentRef, parentChildren, setParentChil
 			ref={nodeRef}
 			tabIndex={0}
 			className='w-max bg-white/90 break-words font-medium rounded shrink-0 relative py-4 px-8 outline-focus focus:outline outline-2 outline-offset-2'
-			style={{ maxWidth: defaultMaxWidth }}>
+			style={{ maxWidth: defaultMaxWidth, minWidth: 120 }}>
 			{value}
 
 			<MindEdge childNode={nodeRef} parentNode={parentRef!} parentChildren={parentChildren} />
@@ -115,7 +122,7 @@ export function MindNode({ node: _node, parentRef, parentChildren, setParentChil
 					}
 				}}
 				className='py-4 px-8 rounded resize-none block bg-white/90 font-medium outline-focus focus:outline outline-2 outline-offset-2'
-				style={{ maxWidth: defaultMaxWidth, width: dynamicWidth }}
+				style={{ maxWidth: defaultMaxWidth, width: dynamicWidth, minWidth: 120 }}
 				autoFocus
 			/>
 
