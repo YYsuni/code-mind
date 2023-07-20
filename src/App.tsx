@@ -1,11 +1,19 @@
 import CodeMind from './components/code-mind'
+import GithubSVG from './svgs/github'
 
 function App() {
 	return (
 		<>
-			<header className='fixed top-4 left-4 flex text-xl font-semibold font-mono items-center'>
+			<header className='fixed top-4 left-4 flex text-xl font-semibold z-10 font-mono items-center'>
 				<img src='/logo.svg' className='h-4' />
 			</header>
+
+			<a
+				href='https://github.com/YYsuni/code-mind'
+				className='fixed top-4 right-4 border drop-shadow z-10 border-#2 p-1 rounded text-#1'
+				target='_blank'>
+				<GithubSVG className='w-4 h-4' />
+			</a>
 
 			<CodeMind />
 		</>

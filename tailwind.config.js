@@ -10,7 +10,9 @@ export default {
 				bg: '#FEF3E1',
 				text: 'black',
 				focus: '#51A8B9',
-				edge: '#7597E8'
+				edge: '#7597E8',
+				'#1': '#FD9886',
+				'#2': '#51A8B9'
 			},
 			screens: {
 				'max-xl': { max: '1280px' },
