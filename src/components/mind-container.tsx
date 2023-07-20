@@ -33,14 +33,14 @@ export default function MindContainer({ children }: PropsWithChildren) {
 			},
 			onDrag: ({ offset }) => {
 				setOffset_drag(offset)
-			},
-			onWheel: ({ offset }) => {
-				setOffset_wheel(offset.map(item => -item))
 			}
+			// onWheel: ({ offset }) => {
+			// 	setOffset_wheel(offset.map(item => -item))
+			// }
 		},
 		{
 			target: containerRef,
-			pinch: { scaleBounds: { min: 0.5, max: 2 }, rubberband: true },
+			pinch: { scaleBounds: { min: 0.3, max: 2 }, rubberband: true, modifierKey: null, pinchOnWheel: true },
 			drag: { pointer: { keys: false } }
 		}
 	)
