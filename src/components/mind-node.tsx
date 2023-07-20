@@ -13,7 +13,7 @@ interface Props {
 }
 
 export function MindNode({ node: _node, parentRef, parentChildren, setParentChildren, index }: Props) {
-	const { distance, gap, updateLayout, defaultMaxWidth } = useContext(MindContext)
+	const { distance, gap, updateLayout, defaultMaxWidth, minWidth } = useContext(MindContext)
 
 	const [node, setNode] = useState(_node)
 	const nodeRef = useRef<HTMLDivElement>(null)
@@ -95,9 +95,9 @@ export function MindNode({ node: _node, parentRef, parentChildren, setParentChil
 			}}
 			ref={nodeRef}
 			tabIndex={0}
-			className='w-max bg-white/90 break-words font-medium rounded shrink-0 relative py-4 px-8 outline-focus focus:outline outline-2 outline-offset-2'
-			style={{ maxWidth: defaultMaxWidth, minWidth: 120 }}>
-			{value}
+			className='w-max bg-white/90 cursor-default break-all font-medium rounded shrink-0 relative py-4 px-8 outline-focus focus:outline outline-2 outline-offset-2'
+			style={{ maxWidth: defaultMaxWidth, minWidth }}>
+			<pre className='font-sans'>{value}</pre>
 
 			<MindEdge childNode={nodeRef} parentNode={parentRef!} parentChildren={parentChildren} />
 		</div>
@@ -118,11 +118,11 @@ export function MindNode({ node: _node, parentRef, parentChildren, setParentChil
 						setTimeout(() => nodeRef.current?.focus())
 					} else if (event.key === 'Tab') {
 						event.preventDefault()
-						generateChild()
+						setValue(value => value + '\t')
 					}
 				}}
 				className='py-4 px-8 rounded resize-none block bg-white/90 font-medium outline-focus focus:outline outline-2 outline-offset-2'
-				style={{ maxWidth: defaultMaxWidth, width: dynamicWidth, minWidth: 120 }}
+				style={{ maxWidth: defaultMaxWidth, width: dynamicWidth, minWidth }}
 				autoFocus
 			/>
 
