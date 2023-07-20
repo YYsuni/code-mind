@@ -19,6 +19,6 @@ Xmind is the best mind mapping tool I have used, but it tends to freeze after wo
 - [ ]  Editable content
 - [ ]  Draggable
 - [ ]  Save feature
-- [ ]  Restyles
+- [ ]  Restyle
 - [ ]  Monaco
 - [ ]  AI?
