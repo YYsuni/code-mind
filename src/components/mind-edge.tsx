@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from 'react'
 import clsx from 'clsx'
 import { MindContext } from './code-mind'
-import { ContainerContext } from './mind-container'
+import { currentState } from '../utils'
 
 interface Props {
 	parentNode?: NodeRef
@@ -11,7 +11,6 @@ interface Props {
 
 export default function MindEdge({ parentNode, childNode, parentChildren }: Props) {
 	const { distance, layoutFlag } = useContext(MindContext)
-	const { scale } = useContext(ContainerContext)
 
 	const [height, setHeight] = useState(0)
 
@@ -21,7 +20,7 @@ export default function MindEdge({ parentNode, childNode, parentChildren }: Prop
 			const { top: cTop, height: cHeight } = childNode.current.getBoundingClientRect()
 
 			let height = pTop - cTop + (pheight - cHeight) / 2
-			height /= scale
+			height /= currentState.scale
 
 			setHeight(height)
 		}
