@@ -18,16 +18,18 @@ Xmind is the best mind mapping tool I have used, but it tends to freeze after wo
 - [x] Fixed connection line 01
 - [x] Focus on newly generated node
 - [ ] More connection line styles
-- [ ] Optimise writing node
+- [x] Optimise writing node
 - [x] Editable content
 - [x] Deletion
-- [ ] Control
-- [ ] Transition
-  - [x] Gesture feedback
-- [ ] Mobile frendly
+- [ ] Code(Monaco)
+- Transition
+  - [x] Scale
 - [ ] Draggable
 - [x] Save feature
+- [ ] Export/Import
 - [ ] Undo/Redo
 - [ ] Restyle
-- [ ] Monaco
 - [ ] AI?
+- [ ] Markdown
+- [ ] Mobile frendly
+- [ ] Control
