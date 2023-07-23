@@ -1,5 +1,6 @@
 declare type MindNode = {
 	id: string
+	parentID?: string
 	value: string
 	children?: MindNode[]
 	isNew?: boolean

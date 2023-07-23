@@ -2,19 +2,22 @@ import { Dispatch, useCallback, useContext, useEffect, useMemo, useRef, useState
 import MindEdge from './mind-edge'
 import { MindContext } from './code-mind'
 import EditableNode from './editable-node'
+import { stateStore } from '../lib/save'
 
 interface Props {
 	index?: number
+	parentID?: string
 	node: MindNode
 	parentRef?: NodeRef
 	parentChildren?: MindNode[]
 	setParentChildren?: Dispatch<MindNode[]>
 }
 
-export function MindNode({ node, parentRef, parentChildren, setParentChildren, index }: Props) {
-	const { distance, gap, updateLayout } = useContext(MindContext)
+export default function MindNode({ node, parentRef, parentChildren, setParentChildren, index, parentID }: Props) {
+	const { distance, gap, updateLayout, saveFlag } = useContext(MindContext)
 
 	const nodeRef = useRef<HTMLDivElement>(null)
+	const contentRef = useRef<{ getContent: () => string }>(null)
 
 	const [children, setChildren] = useState(node.children)
 
@@ -61,6 +64,7 @@ export function MindNode({ node, parentRef, parentChildren, setParentChildren, i
 					generateNextSibling={generateNextSibling}
 					generateChild={generateChild}
 					node={node}
+					ref={contentRef}
 				/>
 
 				<MindEdge childNode={nodeRef} parentNode={parentRef} parentChildren={parentChildren} />
@@ -69,6 +73,13 @@ export function MindNode({ node, parentRef, parentChildren, setParentChildren, i
 		[generateNextSibling, generateNextSibling, generateChild]
 	)
 
+	// Save
+	useEffect(() => {
+		const currentNode: MindNode = { id: node.id, value: contentRef.current?.getContent() || '', parentID }
+
+		stateStore.current.push(currentNode)
+	}, [saveFlag])
+
 	if (Array.isArray(children) && children.length > 0) {
 		return (
 			<div className='flex items-center' style={{ columnGap: distance }}>
@@ -76,6 +87,7 @@ export function MindNode({ node, parentRef, parentChildren, setParentChildren, i
 				<div className='flex flex-col items-start' style={{ rowGap: gap }}>
 					{children.map((item, index) => (
 						<MindNode
+							parentID={node.id}
 							key={item.id}
 							index={index}
 							node={item}

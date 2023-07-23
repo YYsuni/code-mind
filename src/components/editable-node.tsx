@@ -1,4 +1,4 @@
-import { memo, useContext, useEffect, useRef, useState } from 'react'
+import { forwardRef, memo, useContext, useEffect, useImperativeHandle, useRef, useState } from 'react'
 import { MindContext } from './code-mind'
 
 interface Props {
@@ -8,19 +8,25 @@ interface Props {
 	node: MindNode
 }
 
-function _EditableNode(props: Props) {
+const _EditableNode = forwardRef<{ getContent: () => string }, Props>((props, ref) => {
 	const { generateNextSibling, generateChild, deleteCurrent, node } = props
 	const { defaultMaxWidth, minWidth, updateLayout } = useContext(MindContext)
 
-	const ref = useRef<HTMLDivElement>(null)
+	const innerRef = useRef<HTMLDivElement>(null)
 	const [value, setValue] = useState(node.value)
 	const [editable, setEditable] = useState(false)
 
+	useImperativeHandle(ref, () => ({
+		getContent() {
+			return innerRef.current!.innerHTML
+		}
+	}))
+
 	useEffect(() => {
 		if (node.isNew) {
-			ref.current!.focus()
+			innerRef.current!.focus()
 			const selection = window.getSelection()
-			selection?.selectAllChildren(ref.current!)
+			selection?.selectAllChildren(innerRef.current!)
 
 			node.isNew = false
 		}
@@ -32,10 +38,10 @@ function _EditableNode(props: Props) {
 	}, [height])
 	useEffect(() => {
 		const resizeObserver = new ResizeObserver(() => {
-			setHeight(ref.current!.scrollHeight)
+			setHeight(innerRef.current!.scrollHeight)
 		})
 
-		resizeObserver.observe(ref.current!)
+		resizeObserver.observe(innerRef.current!)
 
 		return () => {
 			resizeObserver.disconnect()
@@ -47,12 +53,12 @@ function _EditableNode(props: Props) {
 			id='mind-node__content'
 			dangerouslySetInnerHTML={{ __html: value }}
 			tabIndex={0}
-			ref={ref}
-			onClick={() => ref.current!.focus()}
+			ref={innerRef}
+			onClick={() => innerRef.current!.focus()}
 			onFocus={() => setEditable(true)}
 			onBlur={() => {
 				setEditable(false)
-				setValue(ref.current!.innerHTML)
+				setValue(innerRef.current!.innerHTML)
 			}}
 			onKeyDown={event => {
 				if (event.key === 'Enter' && !event.shiftKey) {
@@ -63,7 +69,7 @@ function _EditableNode(props: Props) {
 					generateChild()
 				} else if (/^[a-zA-Z]$/.test(event.key)) {
 					setEditable(true)
-				} else if (ref.current!.innerHTML === '' && (event.key === 'Delete' || event.key === 'Backspace')) {
+				} else if (innerRef.current!.innerHTML === '' && (event.key === 'Delete' || event.key === 'Backspace')) {
 					deleteCurrent()
 				}
 			}}
@@ -72,7 +78,7 @@ function _EditableNode(props: Props) {
 			style={{ maxWidth: defaultMaxWidth, minWidth }}
 		/>
 	)
-}
+})
 
 const EditableNode = memo(_EditableNode)
 

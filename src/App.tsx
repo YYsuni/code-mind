@@ -1,5 +1,6 @@
 import CodeMind from './components/code-mind'
 import GithubSVG from './svgs/github'
+import { Toaster } from 'sonner'
 
 function App() {
 	return (
@@ -13,6 +14,8 @@ function App() {
 			</a>
 
 			<CodeMind />
+
+			<Toaster />
 		</>
 	)
 }

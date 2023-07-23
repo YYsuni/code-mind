@@ -20,7 +20,7 @@ Xmind is the best mind mapping tool I have used, but it tends to freeze after wo
 - [ ] More connection line styles
 - [ ] Optimise writing node
 - [x] Editable content
-- [ ] Deletion
+- [x] Deletion
 - [ ] Control
 - [ ] Transition
   - [x] Gesture feedback

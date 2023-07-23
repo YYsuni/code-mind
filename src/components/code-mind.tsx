@@ -1,7 +1,8 @@
-import { createContext, useState } from 'react'
+import { createContext, useEffect, useState } from 'react'
 import { initialNode } from '../consts'
 import MindContainer from './mind-container'
-import { MindNode } from './mind-node'
+import MindNode from './mind-node'
+import { getLocalNodeTree, stateStore } from '../lib/save'
 
 export const MindContext = createContext({
 	distance: 0,
@@ -11,7 +12,8 @@ export const MindContext = createContext({
 	// eslint-disable-next-line @typescript-eslint/no-empty-function
 	updateLayout: () => {},
 	defaultMaxWidth: 0,
-	minWidth: 0
+	minWidth: 0,
+	saveFlag: 0
 })
 
 interface Props {
@@ -30,6 +32,15 @@ export default function CodeMind({
 	minWidth = 100
 }: Props) {
 	const [layoutFlag, setLayoutFlag] = useState(0)
+	const [saveFlag, setSaveFlag] = useState(0)
+
+	const [node, setNode] = useState(getLocalNodeTree())
+
+	useEffect(() => {
+		stateStore.saveHandle = () => {
+			setSaveFlag(state => ++state)
+		}
+	}, [])
 
 	return (
 		<MindContext.Provider
@@ -40,10 +51,11 @@ export default function CodeMind({
 				layoutFlag,
 				updateLayout: () => setLayoutFlag(state => state + 1),
 				defaultMaxWidth,
-				minWidth
+				minWidth,
+				saveFlag
 			}}>
 			<MindContainer>
-				<MindNode node={initialNode} />
+				<MindNode node={node} />
 			</MindContainer>
 		</MindContext.Provider>
 	)
