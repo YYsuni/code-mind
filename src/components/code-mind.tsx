@@ -38,7 +38,7 @@ export default function CodeMind({
 				gap,
 				edgeType,
 				layoutFlag,
-				updateLayout: () => setLayoutFlag(layoutFlag + 1),
+				updateLayout: () => setLayoutFlag(state => state + 1),
 				defaultMaxWidth,
 				minWidth
 			}}>

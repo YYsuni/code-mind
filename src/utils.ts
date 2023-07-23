@@ -7,3 +7,14 @@ export function getTextWidth(text: string, font = 'normal 16px Poppins') {
 }
 
 export const currentState = { scale: 1 }
+
+export function setCaretPosition(element: HTMLElement, start: number, end: number) {
+	element.focus()
+	const range = document.createRange()
+	const selection = window.getSelection()
+	range.setStart(element, start)
+	range.setEnd(element, end)
+	range.collapse(true)
+	selection?.removeAllRanges()
+	selection?.addRange(range)
+}

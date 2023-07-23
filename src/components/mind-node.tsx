@@ -1,8 +1,9 @@
-import { Dispatch, useCallback, useContext, useEffect, useRef, useState } from 'react'
+import { Dispatch, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import MindEdge from './mind-edge'
 import { MindContext } from './code-mind'
 import TextareaAutosize from 'react-textarea-autosize'
 import { getTextWidth } from '../utils'
+import EditableNode from './editable-node'
 
 interface Props {
 	index?: number
@@ -12,37 +13,10 @@ interface Props {
 	setParentChildren?: Dispatch<MindNode[]>
 }
 
-export function MindNode({ node: _node, parentRef, parentChildren, setParentChildren, index }: Props) {
-	const { distance, gap, updateLayout, defaultMaxWidth, minWidth } = useContext(MindContext)
+export function MindNode({ node, parentRef, parentChildren, setParentChildren, index }: Props) {
+	const { distance, gap, updateLayout } = useContext(MindContext)
 
-	const [node, setNode] = useState(_node)
 	const nodeRef = useRef<HTMLDivElement>(null)
-
-	const [value, setValue] = useState(node.value)
-	const [editable, _setEditable] = useState(false)
-	const setEditable = useCallback((bool: boolean) => {
-		if (node.isFirstEdit && bool === true) {
-			setValue('')
-			node.isFirstEdit = false
-		}
-		if (bool === true) {
-			setTimeout(
-				// @ts-ignore
-				() => nodeRef.current?.setSelectionRange(-1, -1),
-				0
-			)
-		}
-		_setEditable(bool)
-	}, [])
-	const [dynamicWidth, setDynamicWidth] = useState(getTextWidth(value) + 64 + 16)
-	useEffect(() => {
-		updateLayout()
-	}, [editable])
-	useEffect(() => {
-		const width = getTextWidth(value) + 64 + 16
-
-		if (width <= defaultMaxWidth + 16) setDynamicWidth(width)
-	}, [value])
 
 	const [children, setChildren] = useState(node.children)
 
@@ -73,69 +47,22 @@ export function MindNode({ node: _node, parentRef, parentChildren, setParentChil
 		updateLayout()
 	}, [children])
 
-	useEffect(() => {
-		if (node.isNew) {
-			setTimeout(() => nodeRef.current?.focus(), 0)
-			setNode({ ...node, isNew: false })
-		}
-	}, [node])
+	const SingleNode = useMemo(
+		() => (
+			<div className='relative' ref={nodeRef} tabIndex={0}>
+				<EditableNode generateNextSibling={generateNextSibling} generateChild={generateChild} node={node} />
 
-	const SingleNode = (
-		<div
-			onDoubleClick={() => setEditable(true)}
-			onKeyDown={event => {
-				if (event.key === 'Enter' && !event.shiftKey && parentChildren && setParentChildren) {
-					generateNextSibling()
-				} else if (event.key === 'Tab') {
-					event.preventDefault()
-					generateChild()
-				} else if (/^[a-zA-Z]$/.test(event.key)) {
-					setEditable(true)
-				}
-			}}
-			ref={nodeRef}
-			tabIndex={0}
-			className='w-max bg-white/90 cursor-default break-all font-medium rounded shrink-0 relative py-4 px-8 outline-focus focus:outline outline-2 outline-offset-2'
-			style={{ maxWidth: defaultMaxWidth, minWidth }}>
-			<pre className='font-sans'>{value}</pre>
-
-			<MindEdge childNode={nodeRef} parentNode={parentRef!} parentChildren={parentChildren} />
-		</div>
+				<MindEdge childNode={nodeRef} parentNode={parentRef} parentChildren={parentChildren} />
+			</div>
+		),
+		[]
 	)
-	const TextareaNode = (
-		<div className='relative shrink-0'>
-			<TextareaAutosize
-				onHeightChange={() => updateLayout()}
-				value={value}
-				ref={nodeRef as unknown as React.RefObject<HTMLTextAreaElement>}
-				onInput={e => setValue((e.target as HTMLTextAreaElement).value)}
-				onBlur={() => setEditable(false)}
-				onKeyDown={event => {
-					if (event.key === 'Escape') {
-						setEditable(false)
-					} else if (event.key === 'Enter' && !event.shiftKey && parentChildren && setParentChildren) {
-						setEditable(false)
-						setTimeout(() => nodeRef.current?.focus())
-					} else if (event.key === 'Tab') {
-						event.preventDefault()
-						setValue(value => value + '\t')
-					}
-				}}
-				className='py-4 px-8 rounded resize-none block bg-white/90 font-medium outline-focus focus:outline outline-2 outline-offset-2'
-				style={{ maxWidth: defaultMaxWidth, width: dynamicWidth, minWidth }}
-				autoFocus
-			/>
-
-			<MindEdge childNode={nodeRef} parentNode={parentRef!} parentChildren={parentChildren} />
-		</div>
-	)
-	const CurrentNode = editable ? TextareaNode : SingleNode
 
 	if (Array.isArray(children) && children.length > 0) {
 		return (
 			<div className='flex items-center' style={{ columnGap: distance }}>
-				{CurrentNode}
-				<div className='flex flex-col' style={{ rowGap: gap }}>
+				{SingleNode}
+				<div className='flex flex-col items-start' style={{ rowGap: gap }}>
 					{children.map((item, index) => (
 						<MindNode
 							key={item.id}
@@ -151,5 +78,5 @@ export function MindNode({ node: _node, parentRef, parentChildren, setParentChil
 		)
 	}
 
-	return CurrentNode
+	return SingleNode
 }
