@@ -45,15 +45,28 @@ export function MindNode({ node, parentRef, parentChildren, setParentChildren, i
 		updateLayout()
 	}, [children])
 
+	const deleteCurrent = useCallback(() => {
+		if (parentChildren && setParentChildren) {
+			parentChildren?.splice(index!, 1)
+			setParentChildren(parentChildren?.slice())
+			updateLayout()
+		}
+	}, [parentChildren, index])
+
 	const SingleNode = useMemo(
 		() => (
 			<div className='relative' ref={nodeRef} tabIndex={0} id='mind-node'>
-				<EditableNode generateNextSibling={generateNextSibling} generateChild={generateChild} node={node} />
+				<EditableNode
+					deleteCurrent={deleteCurrent}
+					generateNextSibling={generateNextSibling}
+					generateChild={generateChild}
+					node={node}
+				/>
 
 				<MindEdge childNode={nodeRef} parentNode={parentRef} parentChildren={parentChildren} />
 			</div>
 		),
-		[]
+		[generateNextSibling, generateNextSibling, generateChild]
 	)
 
 	if (Array.isArray(children) && children.length > 0) {

@@ -4,11 +4,12 @@ import { MindContext } from './code-mind'
 interface Props {
 	generateNextSibling: () => void
 	generateChild: () => void
+	deleteCurrent: () => void
 	node: MindNode
 }
 
 function _EditableNode(props: Props) {
-	const { generateNextSibling, generateChild, node } = props
+	const { generateNextSibling, generateChild, deleteCurrent, node } = props
 	const { defaultMaxWidth, minWidth, updateLayout } = useContext(MindContext)
 
 	const ref = useRef<HTMLDivElement>(null)
@@ -62,6 +63,8 @@ function _EditableNode(props: Props) {
 					generateChild()
 				} else if (/^[a-zA-Z]$/.test(event.key)) {
 					setEditable(true)
+				} else if (ref.current!.innerHTML === '' && (event.key === 'Delete' || event.key === 'Backspace')) {
+					deleteCurrent()
 				}
 			}}
 			contentEditable={editable}
