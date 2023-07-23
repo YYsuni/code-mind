@@ -34,7 +34,9 @@ export default function MindContainer({ children }: PropsWithChildren) {
 				api.start({ scale: s })
 				currentState.scale = s
 			},
-			onDrag: ({ offset }) => {
+			onDrag: ({ offset, target, cancel }) => {
+				if (target instanceof HTMLDivElement && target.id.startsWith('mind-node')) cancel()
+
 				api.set({ x: offset[0], y: offset[1] })
 			}
 		},

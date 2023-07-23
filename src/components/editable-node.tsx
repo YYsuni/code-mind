@@ -1,6 +1,5 @@
-import { forwardRef, memo, useCallback, useContext, useEffect, useImperativeHandle, useRef, useState } from 'react'
+import { memo, useContext, useEffect, useRef, useState } from 'react'
 import { MindContext } from './code-mind'
-import { setCaretPosition } from '../utils'
 
 interface Props {
 	generateNextSibling: () => void
@@ -44,6 +43,7 @@ function _EditableNode(props: Props) {
 
 	return (
 		<div
+			id='mind-node__content'
 			dangerouslySetInnerHTML={{ __html: value }}
 			tabIndex={0}
 			ref={ref}

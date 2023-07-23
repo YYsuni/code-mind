@@ -1,8 +1,6 @@
 import { Dispatch, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import MindEdge from './mind-edge'
 import { MindContext } from './code-mind'
-import TextareaAutosize from 'react-textarea-autosize'
-import { getTextWidth } from '../utils'
 import EditableNode from './editable-node'
 
 interface Props {
@@ -49,7 +47,7 @@ export function MindNode({ node, parentRef, parentChildren, setParentChildren, i
 
 	const SingleNode = useMemo(
 		() => (
-			<div className='relative' ref={nodeRef} tabIndex={0}>
+			<div className='relative' ref={nodeRef} tabIndex={0} id='mind-node'>
 				<EditableNode generateNextSibling={generateNextSibling} generateChild={generateChild} node={node} />
 
 				<MindEdge childNode={nodeRef} parentNode={parentRef} parentChildren={parentChildren} />
