@@ -15,3 +15,10 @@ body,
 body {
 	@apply text-text bg-bg;
 }
+
+* {
+	scrollbar-width: none;
+	&::-webkit-scrollbar {
+		display: none;
+	}
+}
