@@ -6,28 +6,32 @@ import { toast } from 'sonner'
 export const stateStore: { current: MindNode[]; saveHandle: () => void } = { current: [], saveHandle: () => {} }
 
 export const getLocalNodeTree = () => {
-	const state: MindNode[] = JSON.parse(getStorage('state') || '')
+	const local = getStorage('state')
 
-	if (state) {
-		const rootNode = state.find(item => !item.parentID) as MindNode
+	if (local) {
+		const state: MindNode[] = JSON.parse(local)
 
-		const nodeMap = new Map<string | undefined, MindNode>()
-		state.forEach(item => {
-			nodeMap.set(item.id, item)
-		})
-		state.forEach(item => {
-			if (nodeMap.has(item.parentID)) {
-				const node = nodeMap.get(item.parentID)
+		if (Array.isArray(state)) {
+			const rootNode = state.find(item => !item.parentID) as MindNode
 
-				if (Array.isArray(node!.children)) {
-					node!.children.push(item)
-				} else {
-					node!.children = [item]
+			const nodeMap = new Map<string | undefined, MindNode>()
+			state.forEach(item => {
+				nodeMap.set(item.id, item)
+			})
+			state.forEach(item => {
+				if (nodeMap.has(item.parentID)) {
+					const node = nodeMap.get(item.parentID)
+
+					if (Array.isArray(node!.children)) {
+						node!.children.push(item)
+					} else {
+						node!.children = [item]
+					}
 				}
-			}
-		})
+			})
 
-		return rootNode
+			return rootNode
+		}
 	}
 
 	return initialNode
