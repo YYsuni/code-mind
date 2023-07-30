@@ -23,6 +23,7 @@ Xmind is the best mind mapping tool I have used, but it tends to freeze after wo
 - [x] Deletion
 - [ ] Code(Monaco)
 - [x] Mouse/Touchpad, Window/Macbook (Figma-like control)
+  - [ ] Point Zoom
 - Transition
   - [x] Scale
 - [x] Save feature
