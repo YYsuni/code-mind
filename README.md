@@ -22,12 +22,13 @@ Xmind is the best mind mapping tool I have used, but it tends to freeze after wo
 - [x] Editable content
 - [x] Deletion
 - [ ] Code(Monaco)
+- [x] Mouse/Touchpad, Window/Macbook (Figma-like control)
 - Transition
   - [x] Scale
-- [ ] Draggable
 - [x] Save feature
 - [ ] Export/Import
 - [ ] Undo/Redo
+- [ ] Draggable
 - [ ] Restyle
 - [ ] AI?
 - [ ] Markdown

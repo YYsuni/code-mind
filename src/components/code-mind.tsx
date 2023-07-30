@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState } from 'react'
-import { initialNode } from '../consts'
+import { initialNode } from '../share'
 import MindContainer from './mind-container'
 import MindNode from './mind-node'
 import { getLocalNodeTree, stateStore } from '../lib/save'

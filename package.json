@@ -16,7 +16,8 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-textarea-autosize": "^8.5.2",
-    "sonner": "^0.6.2"
+    "sonner": "^0.6.2",
+    "vite-tsconfig-paths": "^4.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.37",

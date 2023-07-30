@@ -1,15 +1,14 @@
-import { createContext, useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { useSpring, animated } from '@react-spring/web'
+import { containerState } from '@/share'
+import { createUseGesture, dragAction, pinchAction, wheelAction } from '@use-gesture/react'
 
-import { useGesture } from '@use-gesture/react'
-import { currentState } from '../utils'
-
-// export const ContainerContext = createContext({})
+const useGesture = createUseGesture([dragAction, pinchAction, wheelAction])
 
 export default function MindContainer({ children }: PropsWithChildren) {
 	const [springs, api] = useSpring(() => ({
-		from: { scale: 1, x: 0, y: 0 },
-		config: { tension: 50, friction: 5, mass: 0.1 }
+		from: { x: 0, y: 0, scale: 1 },
+		config: { tension: 100, friction: 5, mass: 0.1 }
 	}))
 
 	const containerRef = useRef<HTMLDivElement>(null)
@@ -32,17 +31,34 @@ export default function MindContainer({ children }: PropsWithChildren) {
 		{
 			onPinch: ({ offset: [s] }) => {
 				api.start({ scale: s })
-				currentState.scale = s
+				containerState.scale = s
 			},
-			onDrag: ({ offset, target, cancel }) => {
-				if (target instanceof HTMLDivElement && target.id.startsWith('mind-node')) cancel()
+			onDrag: ({ offset, target, cancel, pinching }) => {
+				if (pinching) return cancel()
+				if (target instanceof HTMLDivElement && target.id.startsWith('mind-node')) return cancel()
 
-				api.set({ x: offset[0], y: offset[1] })
+				containerState._x = offset[0]
+				containerState._y = offset[1]
+				api.set({ x: containerState.x(), y: containerState.y() })
+			},
+			onWheel: ({ offset, pinching, event }) => {
+				if (!pinching && !event.ctrlKey) {
+					containerState.wheelX = offset[0]
+					containerState.wheelY = offset[1]
+					api.set({ x: containerState.x(), y: containerState.y() })
+				} else {
+					offset[0] = containerState.wheelX
+					offset[1] = containerState.wheelY
+				}
 			}
 		},
 		{
 			target: containerRef,
-			pinch: { scaleBounds: { min: 0.5, max: 2 }, rubberband: true, modifierKey: null },
+			pinch: {
+				scaleBounds: { min: 0.5, max: 2 },
+				rubberband: true
+			},
+			wheel: {},
 			drag: { pointer: { keys: false } }
 		}
 	)
@@ -51,7 +67,7 @@ export default function MindContainer({ children }: PropsWithChildren) {
 		<div
 			ref={containerRef}
 			className='relative w-full h-full code-mind flex justify-center items-center cursor-grab touch-none overflow-hidden'>
-			<div className='code-mind--center relative flex justify-center items-center'>
+			<div className='code-mind--center relative flex justify-center items-center select-none'>
 				<animated.div className='absolute' style={springs}>
 					{children}
 				</animated.div>

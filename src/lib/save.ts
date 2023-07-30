@@ -1,4 +1,4 @@
-import { initialNode } from '../consts'
+import { initialNode } from '../share'
 import { getStorage, setStorage } from './storage'
 import { toast } from 'sonner'
 

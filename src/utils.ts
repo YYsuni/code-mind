@@ -5,5 +5,3 @@ export function getTextWidth(text: string, font = 'normal 16px Poppins') {
 	context!.font = font
 	return context!.measureText(text).width
 }
-
-export const currentState = { scale: 1 }
