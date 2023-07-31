@@ -73,7 +73,7 @@ const _EditableNode = forwardRef<{ getContent: () => string }, Props>((props, re
 				}
 			}}
 			contentEditable={editable}
-			className='w-max bg-white/90 cursor-default break-all font-medium rounded shrink-0 relative py-4 px-8 outline-focus focus:outline outline-2 outline-offset-2'
+			className='relative w-max shrink-0 cursor-default break-all rounded bg-white/90 px-8 py-4 font-medium outline-2 outline-offset-2 outline-focus focus:outline'
 			style={{ maxWidth: defaultMaxWidth, minWidth }}
 		/>
 	)

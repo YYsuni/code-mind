@@ -1,4 +1,4 @@
-![Code Mind](./screenshot.jpg)
+![Code Mind](./screenshot.png)
 
 <div align="center">
 Online mind mapping that supports code writing, single and native.
@@ -17,7 +17,11 @@ Xmind is the best mind mapping tool I have used, but it tends to freeze after wo
 - [x] Styles are managed through context
 - [x] Fixed connection line 01
 - [x] Focus on newly generated node
-- [ ] More connection line styles
+- [x] More connection line styles
+  - bezier
+  - right-angle
+  - straight-with-handle
+  - straight
 - [x] Optimise writing node
 - [x] Editable content
 - [x] Deletion

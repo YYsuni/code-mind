@@ -52,7 +52,8 @@ export default function CodeMind({
 				defaultMaxWidth,
 				minWidth,
 				saveFlag
-			}}>
+			}}
+		>
 			<MindContainer>
 				<MindNode node={node} />
 			</MindContainer>

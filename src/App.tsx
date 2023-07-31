@@ -5,12 +5,12 @@ import { Toaster } from 'sonner'
 function App() {
 	return (
 		<>
-			<header className='fixed top-4 left-4 flex text-xl font-semibold z-10 font-mono items-center'>
+			<header className='fixed left-4 top-4 z-10 flex items-center font-mono text-xl font-semibold'>
 				<img src='/logo.svg' className='h-4' />
 			</header>
 
-			<a href='https://github.com/YYsuni/code-mind' className='fixed top-4 right-4 z-10 p-1 text-#1' target='_blank'>
-				<GithubSVG className='w-4 h-4' />
+			<a href='https://github.com/YYsuni/code-mind' className='fixed right-4 top-4 z-10 p-1 text-#1' target='_blank'>
+				<GithubSVG className='h-4 w-4' />
 			</a>
 
 			<CodeMind />
