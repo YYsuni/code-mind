@@ -58,7 +58,7 @@ export default function MindNode({ node, parentRef, parentChildren, setParentChi
 
 	const SingleNode = useMemo(
 		() => (
-			<div className='relative' ref={nodeRef} tabIndex={0} id='mind-node'>
+			<div className='relative' ref={nodeRef} tabIndex={0}>
 				<EditableNode
 					deleteCurrent={deleteCurrent}
 					generateNextSibling={generateNextSibling}

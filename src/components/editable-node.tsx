@@ -50,7 +50,6 @@ const _EditableNode = forwardRef<{ getContent: () => string }, Props>((props, re
 
 	return (
 		<div
-			id='mind-node__content'
 			dangerouslySetInnerHTML={{ __html: value }}
 			tabIndex={0}
 			ref={innerRef}

@@ -35,7 +35,6 @@ export default function MindContainer({ children }: PropsWithChildren) {
 			},
 			onDrag: ({ offset, target, cancel, pinching }) => {
 				if (pinching) return cancel()
-				if (target instanceof HTMLDivElement && target.id.startsWith('mind-node')) return cancel()
 
 				containerState._x = offset[0]
 				containerState._y = offset[1]
@@ -54,14 +53,32 @@ export default function MindContainer({ children }: PropsWithChildren) {
 		},
 		{
 			target: containerRef,
-			pinch: {
-				scaleBounds: { min: 0.5, max: 2 },
-				rubberband: true
-			},
-			wheel: {},
-			drag: { pointer: { keys: false } }
+			pinch: { scaleBounds: { min: 0.5, max: 2 }, rubberband: true },
+			drag: { pointer: { keys: false, buttons: 4 } }
 		}
 	)
+
+	// Grabbing cursor
+	useEffect(() => {
+		const mousedownHandler = (event: MouseEvent) => {
+			if ((event.button === 1 || event.buttons === 4) && containerRef.current) {
+				containerRef.current.style.cursor = 'grabbing'
+			}
+		}
+		const mouseupHandler = (event: MouseEvent) => {
+			if ((event.button === 1 || event.buttons === 4) && containerRef.current) {
+				containerRef.current.style.cursor = 'auto'
+			}
+		}
+
+		containerRef.current?.addEventListener('mousedown', mousedownHandler)
+		containerRef.current?.addEventListener('mouseup', mouseupHandler)
+
+		return () => {
+			containerRef.current?.removeEventListener('mousedown', mousedownHandler)
+			containerRef.current?.removeEventListener('mouseup', mouseupHandler)
+		}
+	}, [])
 
 	return (
 		<div
