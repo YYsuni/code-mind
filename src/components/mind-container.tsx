@@ -83,8 +83,8 @@ export default function MindContainer({ children }: PropsWithChildren) {
 	return (
 		<div
 			ref={containerRef}
-			className='relative w-full h-full code-mind flex justify-center items-center cursor-grab touch-none overflow-hidden'>
-			<div className='code-mind--center relative flex justify-center items-center select-none'>
+			className='relative w-full h-full code-mind flex justify-center items-center touch-none overflow-hidden'>
+			<div className='code-mind--center relative flex justify-center items-center'>
 				<animated.div className='absolute' style={springs}>
 					{children}
 				</animated.div>
