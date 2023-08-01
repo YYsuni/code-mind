@@ -33,6 +33,7 @@ Xmind is the best mind mapping tool I have used, but it tends to freeze after wo
 - [x] Save feature
 - [ ] Export/Import
 - [ ] Undo/Redo
+- [ ] Box selection
 - [ ] Draggable
 - [ ] Restyle
 - [ ] AI?
