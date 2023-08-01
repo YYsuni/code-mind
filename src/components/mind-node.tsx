@@ -3,17 +3,18 @@ import MindEdge from './mind-edge'
 import { MindContext } from './code-mind'
 import EditableNode from './editable-node'
 import { stateStore } from '../lib/save'
+import { amendDistance } from '@/utils'
 
 interface Props {
 	index?: number
 	parentID?: string
 	node: MindNode
 	parentRef?: NodeRef
-	parentChildren?: MindNode[]
+	siblings?: MindNode[]
 	setParentChildren?: Dispatch<MindNode[]>
 }
 
-export default function MindNode({ node, parentRef, parentChildren, setParentChildren, index, parentID }: Props) {
+export default function MindNode({ node, parentRef, siblings, setParentChildren, index, parentID }: Props) {
 	const { distance, gap, updateLayout, saveFlag } = useContext(MindContext)
 
 	const nodeRef = useRef<HTMLDivElement>(null)
@@ -22,19 +23,19 @@ export default function MindNode({ node, parentRef, parentChildren, setParentChi
 	const [children, setChildren] = useState(node.children)
 
 	const generateNextSibling = useCallback(() => {
-		if (parentChildren && setParentChildren) {
+		if (siblings && setParentChildren) {
 			const nextIndex = (index || 0) + 1
 			const nextNode: MindNode = {
 				id: String(Date.now()),
-				value: 'Example ' + (parentChildren.length + 1),
+				value: 'Example ' + (siblings.length + 1),
 				isNew: true,
 				isFirstEdit: true
 			}
-			parentChildren.splice(nextIndex, 0, nextNode)
-			setParentChildren(parentChildren.slice())
+			siblings.splice(nextIndex, 0, nextNode)
+			setParentChildren(siblings.slice())
 			updateLayout()
 		}
-	}, [parentChildren, index])
+	}, [siblings, index])
 
 	const generateChild = useCallback(() => {
 		if (!Array.isArray(children)) {
@@ -49,12 +50,12 @@ export default function MindNode({ node, parentRef, parentChildren, setParentChi
 	}, [children])
 
 	const deleteCurrent = useCallback(() => {
-		if (parentChildren && setParentChildren) {
-			parentChildren?.splice(index!, 1)
-			setParentChildren(parentChildren?.slice())
+		if (siblings && setParentChildren) {
+			siblings?.splice(index!, 1)
+			setParentChildren(siblings?.slice())
 			updateLayout()
 		}
-	}, [parentChildren, index])
+	}, [siblings, index])
 
 	const SingleNode = useMemo(
 		() => (
@@ -67,22 +68,24 @@ export default function MindNode({ node, parentRef, parentChildren, setParentChi
 					ref={contentRef}
 				/>
 
-				<MindEdge childNode={nodeRef} parentNode={parentRef} parentChildren={parentChildren} />
+				<MindEdge childNode={nodeRef} parentNode={parentRef} siblings={siblings} />
 			</div>
 		),
 		[generateNextSibling, generateNextSibling, generateChild]
 	)
 
-	// Save
+	// Save feature
 	useEffect(() => {
 		const currentNode: MindNode = { id: node.id, value: contentRef.current?.getContent() || '', parentID }
 
 		stateStore.current.push(currentNode)
 	}, [saveFlag])
 
+	const distance_amend = amendDistance(distance, children)
+
 	if (Array.isArray(children) && children.length > 0) {
 		return (
-			<div className='flex items-center' style={{ columnGap: distance }}>
+			<div className='flex items-center' style={{ columnGap: distance_amend }}>
 				{SingleNode}
 				<div className='flex flex-col items-start' style={{ rowGap: gap }}>
 					{children.map((item, index) => (
@@ -92,7 +95,7 @@ export default function MindNode({ node, parentRef, parentChildren, setParentChi
 							index={index}
 							node={item}
 							parentRef={nodeRef}
-							parentChildren={children}
+							siblings={children}
 							setParentChildren={setChildren}
 						/>
 					))}

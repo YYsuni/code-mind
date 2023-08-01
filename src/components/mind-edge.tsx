@@ -2,17 +2,18 @@ import { useContext, useEffect, useState } from 'react'
 import clsx from 'clsx'
 import { MindContext } from './code-mind'
 import { containerState } from '@/share'
+import { amendDistance } from '@/utils'
 
 type LineType = 'straight' | 'straight-with-handle' | 'right-angle' | 'bezier'
 
 interface Props {
 	parentNode?: NodeRef
 	childNode: NodeRef
-	parentChildren?: MindNode[]
+	siblings?: MindNode[]
 	type?: LineType
 }
 
-export default function MindEdge({ parentNode, childNode, parentChildren, type = 'bezier' }: Props) {
+export default function MindEdge({ parentNode, childNode, siblings, type = 'bezier' }: Props) {
 	const { distance, layoutFlag } = useContext(MindContext)
 
 	const [height, setHeight] = useState(0)
@@ -27,9 +28,11 @@ export default function MindEdge({ parentNode, childNode, parentChildren, type =
 
 			setHeight(height)
 		}
-	}, [parentChildren, layoutFlag])
+	}, [siblings, layoutFlag])
 
 	const h = Math.abs(height)
+
+	const distance_amend = amendDistance(distance, siblings)
 
 	if (parentNode?.current)
 		if (height) {
@@ -42,12 +45,11 @@ export default function MindEdge({ parentNode, childNode, parentChildren, type =
 								height < 0 && '-translate-y-full -scale-y-100'
 							)}
 							stroke='currentColor'
-							viewBox={`0 0 ${distance} ${h}`}
-							style={{ width: distance, height: h }}
+							viewBox={`0 0 ${distance_amend} ${h}`}
+							style={{ width: distance_amend, height: h }}
 							strokeWidth='2'
-							fill='none'
-						>
-							<path d={`M0 ${h} C${distance / 5} ${h} ${(distance * 4) / 5} 0  ${distance} 0`} />
+							fill='none'>
+							<path d={`M0 ${h} C${distance_amend / 5} ${h} ${(distance_amend * 4) / 5} 0  ${distance_amend} 0`} />
 						</svg>
 					)
 				case 'right-angle':
@@ -57,11 +59,10 @@ export default function MindEdge({ parentNode, childNode, parentChildren, type =
 								'absolute left-0 top-1/2 -translate-x-full border-l-2 border-t-2 border-edge',
 								height < 0 && '-translate-y-full -scale-y-100'
 							)}
-							style={{ width: (distance * 4) / 5, height: h }}
-						>
+							style={{ width: (distance_amend * 4) / 5, height: h }}>
 							<div
 								className='absolute bottom-[-1px] left-[-2px] -translate-x-full border-t-2 border-edge'
-								style={{ width: distance / 5 }}
+								style={{ width: distance_amend / 5 }}
 							/>
 						</div>
 					)
@@ -73,13 +74,12 @@ export default function MindEdge({ parentNode, childNode, parentChildren, type =
 								height < 0 && '-translate-y-full -scale-y-100'
 							)}
 							stroke='currentColor'
-							viewBox={`0 0 ${distance} ${h}`}
-							style={{ width: distance, height: h }}
+							viewBox={`0 0 ${distance_amend} ${h}`}
+							style={{ width: distance_amend, height: h }}
 							strokeWidth='2'
-							fill='none'
-						>
-							<path d={`M${distance / 5} ${h} L${distance} 0`} />
-							<path d={`M0 ${h} L${distance / 5} ${h}`} />
+							fill='none'>
+							<path d={`M${distance_amend / 5} ${h} L${distance_amend} 0`} />
+							<path d={`M0 ${h} L${distance_amend / 5} ${h}`} />
 						</svg>
 					)
 				case 'straight':
@@ -91,17 +91,19 @@ export default function MindEdge({ parentNode, childNode, parentChildren, type =
 								height < 0 && '-translate-y-full -scale-y-100'
 							)}
 							stroke='currentColor'
-							viewBox={`0 0 ${distance} ${h}`}
-							style={{ width: distance, height: h }}
-							fill='none'
-						>
-							<path d={`M0 ${h} L${distance} 0`} strokeWidth='2' />
+							viewBox={`0 0 ${distance_amend} ${h}`}
+							style={{ width: distance_amend, height: h }}
+							fill='none'>
+							<path d={`M0 ${h} L${distance_amend} 0`} strokeWidth='2' />
 						</svg>
 					)
 			}
 		} else
 			return (
-				<div className='absolute left-0 top-1/2 -translate-x-full border-t-2 border-edge' style={{ width: distance }} />
+				<div
+					className='absolute left-0 top-1/2 -translate-x-full border-t-2 border-edge'
+					style={{ width: distance_amend }}
+				/>
 			)
 	return null
 }
