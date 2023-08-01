@@ -25,6 +25,7 @@ const _EditableNode = forwardRef<{ getContent: () => string }, Props>((props, re
 	useEffect(() => {
 		if (node.isNew) {
 			innerRef.current!.focus()
+			setEditable(true)
 			const selection = window.getSelection()
 			selection?.selectAllChildren(innerRef.current!)
 
@@ -54,7 +55,7 @@ const _EditableNode = forwardRef<{ getContent: () => string }, Props>((props, re
 			tabIndex={0}
 			ref={innerRef}
 			onClick={() => innerRef.current!.focus()}
-			onFocus={() => setEditable(true)}
+			onDoubleClick={() => setEditable(true)}
 			onBlur={() => {
 				setEditable(false)
 				setValue(innerRef.current!.innerHTML)
@@ -66,9 +67,12 @@ const _EditableNode = forwardRef<{ getContent: () => string }, Props>((props, re
 				} else if (event.key === 'Tab') {
 					event.preventDefault()
 					generateChild()
-				} else if (/^[a-zA-Z]$/.test(event.key)) {
-					setEditable(true)
-				} else if (innerRef.current!.innerHTML === '' && (event.key === 'Delete' || event.key === 'Backspace')) {
+				} else if (event.key === 'Escape') {
+					setEditable(false)
+				} else if (
+					(!editable || innerRef.current!.innerHTML === '') &&
+					(event.key === 'Delete' || event.key === 'Backspace')
+				) {
 					deleteCurrent()
 				}
 			}}
