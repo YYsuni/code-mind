@@ -2,7 +2,6 @@ import { initialNode } from '../share'
 import { getStorage, setStorage } from './storage'
 import { toast } from 'sonner'
 
-// eslint-disable-next-line @typescript-eslint/no-empty-function
 export const stateStore: { current: MindNode[]; saveHandle: () => void } = { current: [], saveHandle: () => {} }
 
 export const getLocalNodeTree = () => {

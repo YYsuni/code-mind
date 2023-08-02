@@ -18,7 +18,7 @@ export default function MindNode({ node, parentRef, siblings, setParentChildren,
 	const { distance, gap, updateLayout, saveFlag } = useContext(MindContext)
 
 	const nodeRef = useRef<HTMLDivElement>(null)
-	const contentRef = useRef<{ getContent: () => string }>(null)
+	const contentRef = useRef<{ getContent: () => string; getType: () => NodeType; getCode: () => string }>(null)
 
 	const [children, setChildren] = useState(node.children)
 
@@ -74,9 +74,15 @@ export default function MindNode({ node, parentRef, siblings, setParentChildren,
 		[generateNextSibling, generateNextSibling, generateChild]
 	)
 
-	// Save feature
+	// Save feature: Push current state object to the stateStore.
 	useEffect(() => {
-		const currentNode: MindNode = { id: node.id, value: contentRef.current?.getContent() || '', parentID }
+		const currentNode: MindNode = {
+			id: node.id,
+			value: contentRef.current?.getContent() || '',
+			parentID,
+			type: contentRef.current?.getType() || 'text'
+		}
+		if (currentNode.type === 'code') currentNode.code = contentRef.current?.getCode() || ''
 
 		stateStore.current.push(currentNode)
 	}, [saveFlag])

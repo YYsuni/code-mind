@@ -1,3 +1,5 @@
+import './monacoWorker'
+
 import { createContext, useEffect, useState } from 'react'
 import MindContainer from './mind-container'
 import MindNode from './mind-node'
@@ -8,7 +10,6 @@ export const MindContext = createContext({
 	gap: 0,
 	edgeType: 'line',
 	layoutFlag: 0,
-	// eslint-disable-next-line @typescript-eslint/no-empty-function
 	updateLayout: () => {},
 	defaultMaxWidth: 0,
 	minWidth: 0,
@@ -52,8 +53,7 @@ export default function CodeMind({
 				defaultMaxWidth,
 				minWidth,
 				saveFlag
-			}}
-		>
+			}}>
 			<MindContainer>
 				<MindNode node={node} />
 			</MindContainer>

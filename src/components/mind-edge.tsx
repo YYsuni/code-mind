@@ -4,8 +4,6 @@ import { MindContext } from './code-mind'
 import { containerState } from '@/share'
 import { amendDistance } from '@/utils'
 
-type LineType = 'straight' | 'straight-with-handle' | 'right-angle' | 'bezier'
-
 interface Props {
 	parentNode?: NodeRef
 	childNode: NodeRef
@@ -35,7 +33,7 @@ export default function MindEdge({ parentNode, childNode, siblings, type = 'bezi
 	const distance_amend = amendDistance(distance, siblings)
 
 	if (parentNode?.current)
-		if (height) {
+		if (h > 2) {
 			switch (type) {
 				case 'bezier':
 					return (
@@ -105,5 +103,6 @@ export default function MindEdge({ parentNode, childNode, siblings, type = 'bezi
 					style={{ width: distance_amend }}
 				/>
 			)
+
 	return null
 }

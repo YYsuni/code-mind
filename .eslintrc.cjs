@@ -15,6 +15,7 @@ module.exports = {
 		'@typescript-eslint/no-unsafe-member-access': 'off',
 		'@typescript-eslint/ban-ts-comment': 'off',
 		'@typescript-eslint/no-unsafe-argument': 'off',
-		'react-hooks/exhaustive-deps': 'off'
+		'react-hooks/exhaustive-deps': 'off',
+		'@typescript-eslint/no-empty-function': 'off'
 	}
 }
