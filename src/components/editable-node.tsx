@@ -21,6 +21,13 @@ const _EditableNode = forwardRef<{ getContent: () => string; getType: () => Node
 		const [type, setType] = useState<NodeType>(node.type || 'text')
 		const [code, setCode] = useState(node.code || '')
 
+		// Update node object values
+		useEffect(() => {
+			node.value = value
+			node.type = type
+			node.code = code
+		}, [value, type, code])
+
 		// New node can be edited immediately.
 		useEffect(() => {
 			if (node.isNew) {
@@ -93,7 +100,10 @@ const _EditableNode = forwardRef<{ getContent: () => string; getType: () => Node
 				_editor.onDidBlurEditorWidget(end)
 
 				_editor.onKeyDown(event => {
-					if (event.keyCode === 9) end()
+					if (event.keyCode === 9) {
+						end()
+						setTimeout(() => innerRef.current?.focus())
+					}
 				})
 
 				setEditor(_editor)
