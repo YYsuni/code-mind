@@ -68,17 +68,25 @@ const _EditableNode = forwardRef<{ getContent: () => string; getType: () => Node
 				const _model = _editor.getModel()
 
 				const end = () => {
-					setValue(getMonacoContent(innerRef.current))
 					setCode(_editor.getValue())
+					setValue(getMonacoContent(innerRef.current))
+					_model?.dispose()
 					_editor.dispose()
 					setEditable(false)
+					setEditor(null)
 				}
 
 				_editor.focus()
 
 				_model?.onDidChangeContent(event => {
 					if (_editor.getValue() === '/text') {
+						setValue('')
+						setCode('')
 						setType('text')
+						setTimeout(() => {
+							innerRef.current?.focus()
+							setEditable(true)
+						}, 100)
 					}
 				})
 
@@ -90,7 +98,7 @@ const _EditableNode = forwardRef<{ getContent: () => string; getType: () => Node
 
 				setEditor(_editor)
 			}
-		}, [type, editorRef, editable])
+		}, [type, editorRef, editable, code])
 
 		useImperativeHandle(
 			ref,
@@ -162,6 +170,7 @@ const _EditableNode = forwardRef<{ getContent: () => string; getType: () => Node
 						) {
 							deleteCurrent()
 						} else if (event.key === 'e' && innerRef.current?.innerText === '/cod') {
+							event.preventDefault()
 							setValue('')
 							setType('code')
 						}

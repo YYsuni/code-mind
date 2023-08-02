@@ -6,7 +6,7 @@ Online mind mapping that supports code writing, single and native.
 
 ## Start
 
-type `/code` to switch to code node
+type `/code` to switch to code node (ts)
 
 ## Why
 
