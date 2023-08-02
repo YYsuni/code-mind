@@ -19,13 +19,15 @@ self.MonacoEnvironment = {
 monaco.languages.typescript.typescriptDefaults.setEagerModelSync(true)
 
 // Import the relevant CSS files directly.
-monaco.editor.create(document.createElement('div'), {
-	value: '',
-	language: 'typescript',
-	minimap: { enabled: false },
-	scrollbar: {
-		vertical: 'hidden'
-	},
-	tabSize: 2,
-	scrollBeyondLastLine: false
-})
+monaco.editor
+	.create(document.createElement('div'), {
+		value: '',
+		language: 'typescript',
+		minimap: { enabled: false },
+		scrollbar: {
+			vertical: 'hidden'
+		},
+		tabSize: 2,
+		scrollBeyondLastLine: false
+	})
+	.dispose()
