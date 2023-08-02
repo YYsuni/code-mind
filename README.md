@@ -12,6 +12,7 @@ Online mind mapping that supports code writing, single and native.
 - Press `Enter` to generate a sibling node.
 - Double click node to edit.
 - Type `/code` to switch to a code node (ts).
+- Use Ctrl/Command + s to save to local storage.
 
 ## Why
 
