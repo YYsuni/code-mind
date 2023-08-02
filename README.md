@@ -6,7 +6,12 @@ Online mind mapping that supports code writing, single and native.
 
 ## Start
 
-type `/code` to switch to code node (ts)
+- Windows/Mouse: Hold the middle mouse button to move the view.
+- MacBook/Trackpad: Slide two fingers on the touchpad as usual to move the view.
+- Press `Tab` to generate a child node.
+- Press `Enter` to generate a sibling node.
+- Double click node to edit.
+- Type `/code` to switch to a code node (ts).
 
 ## Why
 
@@ -37,12 +42,13 @@ Xmind is the best mind mapping tool I have used, but it tends to freeze after wo
 - [x] Save feature
 - [ ] Resize node
 - [ ] Control panel
+- [ ] Theme
 - [ ] Export/Import
 - [ ] Undo/Redo
 - [ ] Box selection
 - [ ] Draggable
 - [ ] Restyle
+- [ ] EN/ZH
 - [ ] AI?
 - [ ] Markdown
 - [ ] Mobile frendly
-- [ ] Control
