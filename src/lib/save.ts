@@ -1,10 +1,11 @@
-import { initialNode } from '../share'
+import { isObject } from '@/utils'
+import { containerState, initialNode } from '../share'
 import { getStorage, setStorage } from './storage'
 import { toast } from 'sonner'
 
 export const stateStore: { current: MindNode[]; saveHandle: () => void } = { current: [], saveHandle: () => {} }
 
-export const getLocalNodeTree = () => {
+export function getLocalNodeTree() {
 	const local = getStorage('state')
 
 	if (local) {
@@ -36,6 +37,20 @@ export const getLocalNodeTree = () => {
 	return initialNode
 }
 
+export function getLocalContainerState() {
+	const local = getStorage('container')
+
+	if (local) {
+		const state = JSON.parse(local)
+
+		if (isObject(state)) {
+			return state
+		}
+	}
+
+	return null
+}
+
 async function save() {
 	return new Promise(resolve => {
 		stateStore.current = []
@@ -46,10 +61,21 @@ async function save() {
 			const state = JSON.stringify(stateStore.current)
 
 			setStorage('state', state)
+			saveContainerState()
 
 			resolve(true)
 		}, 0)
 	})
+}
+
+function saveContainerState() {
+	const containerState_amend = {
+		initialX: containerState.x(),
+		initialY: containerState.y(),
+		scale: containerState.scale
+	}
+
+	setStorage('container', JSON.stringify(containerState_amend))
 }
 
 window.addEventListener('keydown', async event => {

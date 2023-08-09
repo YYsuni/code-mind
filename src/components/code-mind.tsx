@@ -4,6 +4,7 @@ import { createContext, useEffect, useState } from 'react'
 import MindContainer from './mind-container'
 import MindNode from './mind-node'
 import { getLocalNodeTree, stateStore } from '../lib/save'
+import MindControl from './mind-control'
 
 export const MindContext = createContext({
 	distance: 0,
@@ -57,6 +58,7 @@ export default function CodeMind({
 			<MindContainer>
 				<MindNode node={node} />
 			</MindContainer>
+			<MindControl />
 		</MindContext.Provider>
 	)
 }

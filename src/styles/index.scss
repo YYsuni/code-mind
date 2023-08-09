@@ -2,7 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-@import './editor';
+@import './monaco';
+@import './mind-node';
 
 html,
 body,

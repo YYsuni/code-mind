@@ -14,10 +14,6 @@ Online mind mapping that supports code writing, single and native.
 - Type `/code` to switch to a code node (ts).
 - Use Ctrl/Command + s to save to local storage.
 
-## Why
-
-Xmind is the best mind mapping tool I have used, but it tends to freeze after working with hundreds of nodes. Additionally, I want to be able to write code with highlights within a mind map.
-
 ## To Do
 
 - [x] Background

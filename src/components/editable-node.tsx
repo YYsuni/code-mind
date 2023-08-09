@@ -174,6 +174,8 @@ const _EditableNode = forwardRef<{ getContent: () => string; getType: () => Node
 							generateChild()
 						} else if (event.key === 'Escape') {
 							setEditable(false)
+						} else if (!editable && /^[a-zA-Z/]$/.test(event.key)) {
+							setEditable(true)
 						} else if (
 							(!editable || innerRef.current!.innerHTML === '') &&
 							(event.key === 'Delete' || event.key === 'Backspace')
@@ -186,7 +188,7 @@ const _EditableNode = forwardRef<{ getContent: () => string; getType: () => Node
 						}
 					}}
 					contentEditable={editable}
-					className='relative w-max shrink-0 cursor-default break-all rounded bg-white/90 px-8 py-4 font-medium outline-2 outline-offset-2 outline-focus focus:outline'
+					className='mind-node'
 					style={{ maxWidth: defaultMaxWidth, minWidth }}
 				/>
 			)

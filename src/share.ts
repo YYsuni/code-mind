@@ -1,3 +1,5 @@
+import { getLocalContainerState } from './lib/save'
+
 export const initialNode: MindNode = {
 	id: '0',
 	value: 'CodeMind',
@@ -7,17 +9,39 @@ export const initialNode: MindNode = {
 	]
 }
 
+export const MAX_SCALE = 2
+export const MIN_SCALE = 0.5
+
 export const containerState = {
-	_x: 0,
-	_y: 0,
+	initialX: 0,
+	initialY: 0,
+	offsetX: 0,
+	offsetY: 0,
 	wheelX: 0,
 	wheelY: 0,
-
 	x() {
-		return this._x - this.wheelX
+		return this.offsetX - this.wheelX + this.initialX
 	},
 	y() {
-		return this._y - this.wheelY
+		return this.offsetY - this.wheelY + this.initialY
 	},
-	scale: 1
+
+	scale: 1,
+
+	...getLocalContainerState()
+} as {
+	initialX: number
+	initialY: number
+	offsetX: number
+	offsetY: number
+	wheelX: number
+	wheelY: number
+	x: () => number
+	y: () => number
+	scale: number
+}
+
+export const controls = {
+	setScale(s: number) {},
+	clearOffset() {}
 }

@@ -1,6 +1,7 @@
 const state = 'state'
+const container = 'container'
 
-type Key = typeof state
+type Key = typeof state | typeof container
 
 export const setStorage = (key: Key, value: string) => {
 	window.localStorage.setItem(key, value)

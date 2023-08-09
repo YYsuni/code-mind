@@ -10,7 +10,7 @@ export default {
 				bg: '#FEF3E1',
 				text: 'black',
 				focus: '#51A8B9',
-				edge: '#7597E8',
+				edge: '#FED2CB',
 				'#1': '#FD9886',
 				'#2': '#51A8B9'
 			},

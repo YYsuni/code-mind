@@ -1,15 +1,33 @@
 import { useEffect, useRef } from 'react'
 import { useSpring, animated } from '@react-spring/web'
-import { containerState } from '@/share'
+import { MAX_SCALE, MIN_SCALE, containerState, controls } from '@/share'
 import { createUseGesture, dragAction, pinchAction, wheelAction } from '@use-gesture/react'
+import Scene from '@/themes/sunset/scene'
 
 const useGesture = createUseGesture([dragAction, pinchAction, wheelAction])
 
 export default function MindContainer({ children }: PropsWithChildren) {
 	const [springs, api] = useSpring(() => ({
-		from: { x: 0, y: 0, scale: 1 },
+		from: { x: containerState.x(), y: containerState.y(), scale: containerState.scale },
 		config: { tension: 100, friction: 5, mass: 0.1 }
 	}))
+
+	// Initialize controls in share file
+	useEffect(() => {
+		controls.setScale = (s: number) => {
+			containerState.scale = s
+			api.start({ scale: s })
+		}
+		controls.clearOffset = () => {
+			containerState.offsetX = 0
+			containerState.offsetY = 0
+			containerState.initialX = 0
+			containerState.initialY = 0
+			containerState.wheelX = 0
+			containerState.wheelY = 0
+			api.start({ x: 0, y: 0 })
+		}
+	}, [api])
 
 	const containerRef = useRef<HTMLDivElement>(null)
 
@@ -36,8 +54,8 @@ export default function MindContainer({ children }: PropsWithChildren) {
 			onDrag: ({ offset, target, cancel, pinching }) => {
 				if (pinching) return cancel()
 
-				containerState._x = offset[0]
-				containerState._y = offset[1]
+				containerState.offsetX = offset[0]
+				containerState.offsetY = offset[1]
 				api.set({ x: containerState.x(), y: containerState.y() })
 			},
 			onWheel: ({ offset, pinching, event }) => {
@@ -53,7 +71,7 @@ export default function MindContainer({ children }: PropsWithChildren) {
 		},
 		{
 			target: containerRef,
-			pinch: { scaleBounds: { min: 0.5, max: 2 }, rubberband: true },
+			pinch: { scaleBounds: { min: MIN_SCALE, max: MAX_SCALE }, rubberband: true },
 			drag: { pointer: { keys: false, buttons: 4 } }
 		}
 	)
@@ -83,11 +101,11 @@ export default function MindContainer({ children }: PropsWithChildren) {
 	return (
 		<div
 			ref={containerRef}
-			className='code-mind relative flex h-full w-full touch-none items-center justify-center overflow-hidden'
-		>
+			className='code-mind relative flex h-full w-full touch-none items-center justify-center overflow-hidden'>
 			<div className='code-mind--center relative flex items-center justify-center'>
-				<animated.div className='absolute' style={springs}>
-					{children}
+				<animated.div className='absolute flex items-center justify-between' style={springs}>
+					<Scene />
+					<div className='absolute'>{children}</div>
 				</animated.div>
 			</div>
 		</div>

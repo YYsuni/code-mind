@@ -1,3 +1,12 @@
+declare module '*.svg' {
+	const src: string
+	export default src
+	export const ReactComponent: React.FC<React.SVGProps<SVGSVGElement>>
+}
+declare type PropsWithChildren = React.PropsWithChildren
+
+declare type NodeRef = React.RefObject<HTMLDivElement>
+
 declare type LineType = 'straight' | 'straight-with-handle' | 'right-angle' | 'bezier'
 declare type NodeType = 'text' | 'code'
 
@@ -11,6 +20,3 @@ declare type MindNode = {
 	type?: NodeType
 	code?: string
 }
-
-declare type NodeRef = React.RefObject<HTMLDivElement>
-declare type PropsWithChildren = React.PropsWithChildren
