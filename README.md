@@ -38,8 +38,9 @@ Online mind mapping that supports code writing, single and native.
   - [x] Scale
 - [x] Save feature
 - [ ] Resize node
-- [ ] Control panel
-- [ ] Theme
+- [x] Controls
+- [ ] Customize node
+- [ ] Themes
 - [ ] Export/Import
 - [ ] Undo/Redo
 - [ ] Box selection
