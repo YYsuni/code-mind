@@ -7,7 +7,7 @@ import { ReactComponent as IsletSVG } from './islet.svg'
 
 export default function Scene() {
 	return (
-		<div className='pointer-events-none absolute'>
+		<div className='pointer-events-none absolute z-[-1]'>
 			<SunSVG className=' absolute' style={{ left: -500, top: -300 }} />
 			<Goose1SVG className='absolute' style={{ left: -620, top: -320 }} />
 			<Goose2SVG className=' absolute' style={{ left: -520, top: -360 }} />

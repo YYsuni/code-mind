@@ -32,14 +32,14 @@ export default function MindEdge({ parentNode, childNode, siblings, type = 'bezi
 
 	const distance_amend = amendDistance(distance, siblings)
 
-	if (parentNode?.current)
+	if (parentNode?.current && childNode.current)
 		if (h > 2) {
 			switch (type) {
 				case 'bezier':
 					return (
 						<svg
 							className={clsx(
-								'absolute left-0 top-1/2 -translate-x-full text-edge ',
+								'absolute left-0 top-1/2 z-[-1] -translate-x-full text-edge ',
 								height < 0 && '-translate-y-full -scale-y-100'
 							)}
 							stroke='currentColor'
@@ -54,7 +54,7 @@ export default function MindEdge({ parentNode, childNode, siblings, type = 'bezi
 					return (
 						<div
 							className={clsx(
-								'absolute left-0 top-1/2 -translate-x-full border-l-2 border-t-2 border-edge',
+								'absolute left-0 top-1/2 z-[-1] -translate-x-full border-l-2 border-t-2 border-edge',
 								height < 0 && '-translate-y-full -scale-y-100'
 							)}
 							style={{ width: (distance_amend * 4) / 5, height: h }}>
@@ -68,7 +68,7 @@ export default function MindEdge({ parentNode, childNode, siblings, type = 'bezi
 					return (
 						<svg
 							className={clsx(
-								'absolute left-0 top-1/2 -translate-x-full text-edge ',
+								'absolute left-0 top-1/2 z-[-1] -translate-x-full text-edge ',
 								height < 0 && '-translate-y-full -scale-y-100'
 							)}
 							stroke='currentColor'
@@ -85,7 +85,7 @@ export default function MindEdge({ parentNode, childNode, siblings, type = 'bezi
 					return (
 						<svg
 							className={clsx(
-								'absolute left-0 top-1/2 -translate-x-full text-edge ',
+								'absolute left-0 top-1/2 z-[-1] -translate-x-full text-edge ',
 								height < 0 && '-translate-y-full -scale-y-100'
 							)}
 							stroke='currentColor'
@@ -99,7 +99,7 @@ export default function MindEdge({ parentNode, childNode, siblings, type = 'bezi
 		} else
 			return (
 				<div
-					className='absolute left-0 top-1/2 -translate-x-full border-t-2 border-edge'
+					className='absolute left-0 top-1/2 z-[-1] -translate-x-full border-t-2 border-edge'
 					style={{ width: distance_amend }}
 				/>
 			)
