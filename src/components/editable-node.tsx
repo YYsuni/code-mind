@@ -189,17 +189,24 @@ const _EditableNode = forwardRef<{ getContent: () => string; getType: () => Node
 							}
 						} else if (event.key === 'Escape') {
 							setEditable(false)
-						} else if (!editable && /^[a-zA-Z/]$/.test(event.key)) {
-							setEditable(true)
 						} else if (
 							(!editable || innerRef.current!.innerHTML === '') &&
 							(event.key === 'Delete' || event.key === 'Backspace')
 						) {
 							deleteCurrent()
-						} else if (event.key === 'e' && innerRef.current?.innerText === '/cod') {
+						} else if (editable && event.key === 'e' && innerRef.current?.innerText === '/cod') {
 							event.preventDefault()
 							setValue('')
 							setType('code')
+						} else if (
+							!editable &&
+							!/^.{2,}/.test(event.key) &&
+							!event.shiftKey &&
+							!event.altKey &&
+							!event.metaKey &&
+							!event.ctrlKey
+						) {
+							setEditable(true)
 						}
 					}}
 					contentEditable={editable}
