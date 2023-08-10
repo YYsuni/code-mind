@@ -17,7 +17,7 @@ export default function MindControl() {
 			</button>
 			<button
 				onClick={() => {
-					let newScale = containerState.scale + 0.2
+					let newScale = containerState.scale * 1.2
 					if (newScale > MAX_SCALE) newScale = MAX_SCALE
 
 					controls.setScale(newScale)
@@ -27,7 +27,7 @@ export default function MindControl() {
 			</button>
 			<button
 				onClick={() => {
-					let newScale = containerState.scale - 0.2
+					let newScale = containerState.scale * 0.8
 					if (newScale < MIN_SCALE) newScale = MIN_SCALE
 
 					controls.setScale(newScale)

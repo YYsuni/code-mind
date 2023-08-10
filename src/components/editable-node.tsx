@@ -17,7 +17,13 @@ const _EditableNode = forwardRef<{ getContent: () => string; getType: () => Node
 
 		const innerRef = useRef<HTMLDivElement>(null)
 		const [value, setValue] = useState(node.value)
-		const [editable, setEditable] = useState(false)
+		const [editable, _setEditable] = useState(false)
+		const setEditable = (bool: boolean) => {
+			if (!bool) {
+				if (innerRef.current) setValue(innerRef.current.innerHTML)
+			}
+			_setEditable(bool)
+		}
 		const [type, setType] = useState<NodeType>(node.type || 'text')
 		const [code, setCode] = useState(node.code || '')
 
@@ -32,7 +38,6 @@ const _EditableNode = forwardRef<{ getContent: () => string; getType: () => Node
 		useEffect(() => {
 			if (node.isNew) {
 				innerRef.current!.focus()
-				setEditable(true)
 				const selection = window.getSelection()
 				selection?.selectAllChildren(innerRef.current!)
 
@@ -79,7 +84,7 @@ const _EditableNode = forwardRef<{ getContent: () => string; getType: () => Node
 					setValue(getMonacoContent(innerRef.current))
 					_model?.dispose()
 					_editor.dispose()
-					setEditable(false)
+					_setEditable(false)
 					setEditor(null)
 				}
 
@@ -163,15 +168,25 @@ const _EditableNode = forwardRef<{ getContent: () => string; getType: () => Node
 					onDoubleClick={() => setEditable(true)}
 					onBlur={() => {
 						setEditable(false)
-						setValue(innerRef.current!.innerHTML)
 					}}
 					onKeyDown={event => {
-						if (event.key === 'Enter' && !event.shiftKey) {
-							event.preventDefault()
-							generateNextSibling()
+						if (event.key === 'Enter') {
+							if (editable) {
+								if (!event.shiftKey) {
+									setEditable(false)
+								}
+							} else {
+								event.preventDefault()
+								generateNextSibling()
+							}
 						} else if (event.key === 'Tab') {
-							event.preventDefault()
-							generateChild()
+							if (editable) {
+								event.preventDefault()
+								setEditable(false)
+							} else {
+								event.preventDefault()
+								generateChild()
+							}
 						} else if (event.key === 'Escape') {
 							setEditable(false)
 						} else if (!editable && /^[a-zA-Z/]$/.test(event.key)) {
