@@ -72,7 +72,7 @@ export default function MindContainer({ children }: PropsWithChildren) {
 		{
 			target: containerRef,
 			pinch: { scaleBounds: { min: MIN_SCALE, max: MAX_SCALE }, rubberband: true },
-			drag: { pointer: { keys: false, buttons: 4 } }
+			drag: { pointer: { keys: false, buttons: 'ontouchstart' in window ? 1 : 4 } }
 		}
 	)
 
@@ -105,7 +105,9 @@ export default function MindContainer({ children }: PropsWithChildren) {
 			<div className='code-mind--center relative flex items-center justify-center'>
 				<animated.div className='absolute flex items-center justify-between' style={springs}>
 					<Scene />
-					<div className='absolute'>{children}</div>
+				</animated.div>
+				<animated.div className='absolute flex items-center justify-between' style={springs}>
+					{children}
 				</animated.div>
 			</div>
 		</div>

@@ -37,7 +37,7 @@ export default function Scene() {
 					}}></div>
 			</div>
 
-			<IsletSVG className='absolute' style={{ bottom: -900, left: 600, height: 800, opacity: 0.8 }} />
+			{/* <IsletSVG className='absolute' style={{ bottom: -800, left: 500, height: 800 }} /> */}
 		</div>
 	)
 }
