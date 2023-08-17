@@ -12,7 +12,7 @@ body,
 }
 
 *:focus-visible {
-	@apply outline-offset-2 outline-focus;
+	@apply outline-focus;
 }
 
 body {
