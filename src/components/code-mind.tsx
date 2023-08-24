@@ -37,6 +37,7 @@ export default function CodeMind({
 
 	const [node, setNode] = useState(getLocalNodeTree())
 
+	// Initialize save handle
 	useEffect(() => {
 		stateStore.saveHandle = () => {
 			setSaveFlag(state => ++state)

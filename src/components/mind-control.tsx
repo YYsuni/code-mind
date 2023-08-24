@@ -7,6 +7,7 @@ import { ReactComponent as ItalicSVG } from '@/svgs/italic.svg'
 import { ReactComponent as StrikeThroughSVG } from '@/svgs/strike-through.svg'
 import { MAX_SCALE, MIN_SCALE, containerState, controls } from '@/share'
 import { useState } from 'react'
+import { useFocusState } from '@/hooks/useFocusState'
 
 export default function MindControl() {
 	return (
@@ -47,6 +48,8 @@ export default function MindControl() {
 function Brush() {
 	const [show, setShow] = useState(false)
 
+	const { current } = useFocusState()
+
 	return (
 		<>
 			<span className=' relative'>
@@ -65,7 +68,7 @@ function Brush() {
 						<label className='group relative flex h-7 items-center rounded border border-transparent hover:border-black/10'>
 							<span className='absolute left-1'>Width</span>
 							<input
-								placeholder='200'
+								placeholder={current?.offsetWidth.toString() || 'null'}
 								type='text'
 								className='h-full bg-transparent py-0.5'
 								style={{ width: 176, paddingLeft: 56, paddingRight: 60 }}
@@ -79,7 +82,7 @@ function Brush() {
 						<label className='group relative flex h-7 items-center rounded border border-transparent hover:border-black/10'>
 							<span className='absolute left-1'>Height</span>
 							<input
-								placeholder='48'
+								placeholder={current?.offsetHeight.toString() || 'null'}
 								type='text'
 								className='h-full bg-transparent py-0.5'
 								style={{ width: 176, paddingLeft: 56, paddingRight: 60 }}
@@ -110,7 +113,7 @@ function Brush() {
 							/>
 							<input
 								type='text'
-								value='100%'
+								placeholder='100%'
 								className='h-full bg-transparent px-1 py-0.5 text-center'
 								style={{ width: 48 }}
 							/>
@@ -135,7 +138,7 @@ function Brush() {
 							/>
 							<input
 								type='text'
-								value='100%'
+								placeholder='100%'
 								className='h-full bg-transparent px-1 py-0.5 text-center'
 								style={{ width: 48 }}
 							/>

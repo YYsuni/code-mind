@@ -17,6 +17,9 @@ const _EditableNode = forwardRef<{ getContent: () => string; getType: () => Node
 
 		const innerRef = useRef<HTMLDivElement>(null)
 		const [value, setValue] = useState(node.value)
+		const [type, setType] = useState<NodeType>(node.type || 'text')
+		const [code, setCode] = useState(node.code || '')
+
 		const [editable, _setEditable] = useState(false)
 		const setEditable = (bool: boolean) => {
 			if (!bool) {
@@ -24,8 +27,6 @@ const _EditableNode = forwardRef<{ getContent: () => string; getType: () => Node
 			}
 			_setEditable(bool)
 		}
-		const [type, setType] = useState<NodeType>(node.type || 'text')
-		const [code, setCode] = useState(node.code || '')
 
 		// Update node object values
 		useEffect(() => {
@@ -211,6 +212,7 @@ const _EditableNode = forwardRef<{ getContent: () => string; getType: () => Node
 					}}
 					contentEditable={editable}
 					className='mind-node'
+					id='mind-node'
 					style={{ maxWidth: defaultMaxWidth, minWidth }}
 				/>
 			)

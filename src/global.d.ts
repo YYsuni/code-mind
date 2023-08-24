@@ -3,9 +3,11 @@ declare module '*.svg' {
 	export default src
 	export const ReactComponent: React.FC<React.SVGProps<SVGSVGElement>>
 }
+
 declare type PropsWithChildren = React.PropsWithChildren
 
-declare type NodeRef = React.RefObject<HTMLDivElement>
+declare type NodeElement = HTMLDivElement
+declare type NodeRef = React.RefObject<NodeElement>
 
 declare type LineType = 'straight' | 'straight-with-handle' | 'right-angle' | 'bezier'
 declare type NodeType = 'text' | 'code'
