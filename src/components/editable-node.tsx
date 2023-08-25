@@ -1,7 +1,9 @@
-import { forwardRef, memo, useContext, useEffect, useImperativeHandle, useRef, useState } from 'react'
+import { forwardRef, memo, useContext, useEffect, useImperativeHandle, useReducer, useRef, useState } from 'react'
 import { MindContext } from './code-mind'
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api'
 import { getMonacoContent } from '@/utils'
+import clsx from 'clsx'
+import { useSelectState } from '@/hooks/useSelectState'
 
 interface Props {
 	generateNextSibling: () => void
@@ -13,9 +15,9 @@ interface Props {
 const _EditableNode = forwardRef<{ getContent: () => string; getType: () => NodeType; getCode: () => string }, Props>(
 	(props, ref) => {
 		const { generateNextSibling, generateChild, deleteCurrent, node } = props
-		const { defaultMaxWidth, minWidth, updateLayout } = useContext(MindContext)
+		const { maxWidth, minWidth, updateLayout } = useContext(MindContext)
 
-		const innerRef = useRef<HTMLDivElement>(null)
+		const innerRef = useRef<NodeElement>(null)
 		const [value, setValue] = useState(node.value)
 		const [type, setType] = useState<NodeType>(node.type || 'text')
 		const [code, setCode] = useState(node.code || '')
@@ -27,6 +29,14 @@ const _EditableNode = forwardRef<{ getContent: () => string; getType: () => Node
 			}
 			_setEditable(bool)
 		}
+
+		const [style, dispatchStyle] = useReducer(styleReducer, {})
+		useEffect(() => {
+			if (innerRef.current) {
+				innerRef.current.reactStyle = style
+				innerRef.current.dispatchStyle = dispatchStyle
+			}
+		}, [innerRef.current, style])
 
 		// Update node object values
 		useEffect(() => {
@@ -133,6 +143,8 @@ const _EditableNode = forwardRef<{ getContent: () => string; getType: () => Node
 			[type, code, editor]
 		)
 
+		const { current } = useSelectState()
+
 		if (type === 'code') {
 			return editable ? (
 				<div className='h-[400px] w-[400px]  bg-white/90 py-4 pr-4' ref={innerRef}>
@@ -211,9 +223,9 @@ const _EditableNode = forwardRef<{ getContent: () => string; getType: () => Node
 						}
 					}}
 					contentEditable={editable}
-					className='mind-node'
+					className={clsx('mind-node', current === innerRef.current && 'selected')}
 					id='mind-node'
-					style={{ maxWidth: defaultMaxWidth, minWidth }}
+					style={{ maxWidth, minWidth, ...style }}
 				/>
 			)
 	}
@@ -222,3 +234,23 @@ const _EditableNode = forwardRef<{ getContent: () => string; getType: () => Node
 const EditableNode = memo(_EditableNode)
 
 export default EditableNode
+
+const styleReducer: React.Reducer<
+	React.CSSProperties,
+	{ type: 'setWidth' | 'setMinWidth' | 'setMaxWidth' | 'setHeight'; payload: string | number }
+> = (style, action) => {
+	switch (action.type) {
+		case 'setWidth':
+			return { ...style, width: action.payload }
+		case 'setMinWidth':
+			return { ...style, minWidth: action.payload }
+		case 'setMaxWidth':
+			return { ...style, maxWidth: action.payload }
+		case 'setHeight':
+			return { ...style, height: action.payload }
+
+		default: {
+			throw Error('Unknown action: ' + action.type)
+		}
+	}
+}

@@ -3,6 +3,7 @@ import { useSpring, animated } from '@react-spring/web'
 import { MAX_SCALE, MIN_SCALE, containerState, controls } from '@/share'
 import { createUseGesture, dragAction, pinchAction, wheelAction } from '@use-gesture/react'
 import Scene from '@/themes/sunset/scene'
+import { containerListener } from '@/hooks/useSelectState'
 
 const useGesture = createUseGesture([dragAction, pinchAction, wheelAction])
 
@@ -102,6 +103,7 @@ export default function MindContainer({ children }: PropsWithChildren) {
 		<div
 			ref={containerRef}
 			id='mind-container'
+			onClick={containerListener}
 			className='code-mind relative flex h-full w-full touch-none items-center justify-center overflow-hidden'>
 			<div className='code-mind--center relative flex items-center justify-center'>
 				<animated.div className='absolute flex items-center justify-between' style={springs}>

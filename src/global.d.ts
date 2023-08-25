@@ -6,7 +6,13 @@ declare module '*.svg' {
 
 declare type PropsWithChildren = React.PropsWithChildren
 
-declare type NodeElement = HTMLDivElement
+declare type NodeElement = HTMLDivElement & {
+	reactStyle?: React.CSSProperties
+	dispatchStyle?: React.Dispatch<{
+		type: 'setWidth' | 'setMinWidth' | 'setMaxWidth' | 'setHeight'
+		payload: string | number
+	}>
+}
 declare type NodeRef = React.RefObject<NodeElement>
 
 declare type LineType = 'straight' | 'straight-with-handle' | 'right-angle' | 'bezier'
@@ -21,4 +27,5 @@ declare type MindNode = {
 	isFirstEdit?: boolean
 	type?: NodeType
 	code?: string
+	style?: React.CSSProperties
 }

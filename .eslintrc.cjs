@@ -16,6 +16,7 @@ module.exports = {
 		'@typescript-eslint/ban-ts-comment': 'off',
 		'@typescript-eslint/no-unsafe-argument': 'off',
 		'react-hooks/exhaustive-deps': 'off',
-		'@typescript-eslint/no-empty-function': 'off'
+		'@typescript-eslint/no-empty-function': 'off',
+		'@typescript-eslint/no-extra-semi': 'off'
 	}
 }

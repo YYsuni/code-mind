@@ -3,7 +3,7 @@ import './monacoWorker'
 import { createContext, useEffect, useState } from 'react'
 import MindContainer from './mind-container'
 import MindNode from './mind-node'
-import { getLocalNodeTree, stateStore } from '../lib/save'
+import { stateStore } from '../lib/save'
 import MindControl from './mind-control'
 
 export const MindContext = createContext({
@@ -12,7 +12,7 @@ export const MindContext = createContext({
 	edgeType: 'line',
 	layoutFlag: 0,
 	updateLayout: () => {},
-	defaultMaxWidth: 0,
+	maxWidth: 0,
 	minWidth: 0,
 	saveFlag: 0
 })
@@ -21,7 +21,7 @@ interface Props {
 	distance?: number
 	gap?: number
 	edgeType?: string
-	defaultMaxWidth?: number
+	maxWidth?: number
 	minWidth?: number
 }
 
@@ -29,16 +29,15 @@ export default function CodeMind({
 	distance = 36,
 	gap = 16,
 	edgeType = 'line',
-	defaultMaxWidth = 400,
+	maxWidth = 400,
 	minWidth = 100
 }: Props) {
 	const [layoutFlag, setLayoutFlag] = useState(0)
 	const [saveFlag, setSaveFlag] = useState(0)
 
-	const [node, setNode] = useState(getLocalNodeTree())
-
-	// Initialize save handle
+	// Initialize
 	useEffect(() => {
+		// Initialize save handle
 		stateStore.saveHandle = () => {
 			setSaveFlag(state => ++state)
 		}
@@ -52,12 +51,12 @@ export default function CodeMind({
 				edgeType,
 				layoutFlag,
 				updateLayout: () => setLayoutFlag(state => state + 1),
-				defaultMaxWidth,
+				maxWidth,
 				minWidth,
 				saveFlag
 			}}>
 			<MindContainer>
-				<MindNode node={node} />
+				<MindNode node={stateStore.local} />
 			</MindContainer>
 			<MindControl />
 		</MindContext.Provider>

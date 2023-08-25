@@ -20,3 +20,13 @@ window.addEventListener(
 	},
 	{ capture: true }
 )
+window.addEventListener(
+	'blur',
+	event => {
+		const target = event.target
+		if (target && target instanceof HTMLDivElement && target.id === 'mind-node') {
+			if (target === focusStateStore.getState().current) focusStateStore.setState({ current: null })
+		}
+	},
+	{ capture: true }
+)

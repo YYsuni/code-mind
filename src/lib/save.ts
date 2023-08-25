@@ -3,7 +3,11 @@ import { containerState, initialNode } from '../share'
 import { getStorage, setStorage } from './storage'
 import { toast } from 'sonner'
 
-export const stateStore: { current: MindNode[]; saveHandle: () => void } = { current: [], saveHandle: () => {} }
+export const stateStore = {
+	current: [] as MindNode[],
+	saveHandle: () => {},
+	local: getLocalNodeTree()
+}
 
 export function getLocalNodeTree() {
 	const local = getStorage('state')
