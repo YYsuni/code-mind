@@ -9,7 +9,7 @@ declare type PropsWithChildren = React.PropsWithChildren
 declare type NodeElement = HTMLDivElement & {
 	reactStyle?: React.CSSProperties
 	dispatchStyle?: React.Dispatch<{
-		type: 'setWidth' | 'setMinWidth' | 'setMaxWidth' | 'setHeight'
+		type: 'setWidth' | 'setMinWidth' | 'setMaxWidth' | 'setHeight' | 'setBackgroundColor'
 		payload: string | number
 	}>
 }

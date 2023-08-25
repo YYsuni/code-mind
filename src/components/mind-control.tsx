@@ -89,7 +89,7 @@ function Brush() {
 	const normalChangeHanlder =
 		(action: 'setMinWidth' | 'setMaxWidth' | 'setWidth' | 'setHeight') =>
 		(event: React.ChangeEvent<HTMLInputElement>) => {
-			if (current && current.dispatchStyle) {
+			if (current?.dispatchStyle) {
 				const target = event.target as HTMLInputElement
 
 				if (!target.value) {
@@ -119,71 +119,89 @@ function Brush() {
 							ref={ref}
 							className='absolute right-12 top-0 space-y-2 rounded-lg bg-white/80 p-3 text-xs backdrop-blur'
 							style={{ width: 200 }}>
-							<label className='group relative flex h-7 items-center rounded border border-transparent hover:border-black/10'>
-								<span className='absolute left-1'>MinWidth</span>
-								<input
-									onChange={normalChangeHanlder('setMinWidth')}
-									name='min-width'
-									placeholder={String(minWidth)}
-									type='text'
-									className='h-full bg-transparent py-0.5'
-									style={{ width: 176, paddingLeft: 72, paddingRight: 60 }}
-								/>
-								<button
-									className='absolute right-0 top-0 h-full border-l border-transparent text-center hover:bg-black/5 group-hover:border-black/10'
-									style={{ width: 48 }}>
-									reset
-								</button>
-							</label>
-							<label className='group relative flex h-7 items-center rounded border border-transparent hover:border-black/10'>
-								<span className='absolute left-1'>MaxWidth</span>
-								<input
-									onChange={normalChangeHanlder('setMaxWidth')}
-									name='max-width'
-									placeholder={String(maxWidth)}
-									type='text'
-									className='h-full bg-transparent py-0.5'
-									style={{ width: 176, paddingLeft: 72, paddingRight: 60 }}
-								/>
-								<button
-									className='absolute right-0 top-0 h-full border-l border-transparent text-center hover:bg-black/5 group-hover:border-black/10'
-									style={{ width: 48 }}>
-									reset
-								</button>
-							</label>
-							<label className='group relative flex h-7 items-center rounded border border-transparent hover:border-black/10'>
-								<span className='absolute left-1'>Width</span>
-								<input
-									name='width'
-									onChange={normalChangeHanlder('setWidth')}
-									placeholder={current?.offsetWidth.toString() || 'null'}
-									type='text'
-									className='h-full bg-transparent py-0.5'
-									style={{ width: 176, paddingLeft: 72, paddingRight: 60 }}
-								/>
-								<button
-									className='absolute right-0 top-0 h-full border-l border-transparent text-center hover:bg-black/5 group-hover:border-black/10'
-									style={{ width: 48 }}>
-									reset
-								</button>
-							</label>
+							<div>
+								<label className='group relative flex h-7 items-center rounded border border-transparent hover:border-black/10'>
+									<span className='absolute left-1'>MinWidth</span>
+									<input
+										onChange={normalChangeHanlder('setMinWidth')}
+										name='min-width'
+										placeholder={String(minWidth)}
+										type='text'
+										className='h-full bg-transparent py-0.5'
+										style={{ width: 176, paddingLeft: 72, paddingRight: 60 }}
+									/>
+									<button
+										className='absolute right-0 top-0 h-full border-l border-transparent text-center hover:bg-black/5 group-hover:border-black/10'
+										style={{ width: 48 }}
+										onClick={() => {
+											if (current?.dispatchStyle) current.dispatchStyle({ type: 'setMinWidth', payload: '' })
+											;(ref.current!.querySelector('input[name="min-width"]') as HTMLInputElement).value = ''
+										}}>
+										reset
+									</button>
+								</label>
+								<label className='group relative flex h-7 items-center rounded border border-transparent hover:border-black/10'>
+									<span className='absolute left-1'>MaxWidth</span>
+									<input
+										onChange={normalChangeHanlder('setMaxWidth')}
+										name='max-width'
+										placeholder={String(maxWidth)}
+										type='text'
+										className='h-full bg-transparent py-0.5'
+										style={{ width: 176, paddingLeft: 72, paddingRight: 60 }}
+									/>
+									<button
+										onClick={() => {
+											if (current?.dispatchStyle) current.dispatchStyle({ type: 'setMaxWidth', payload: '' })
+											;(ref.current!.querySelector('input[name="max-width"]') as HTMLInputElement).value = ''
+										}}
+										className='absolute right-0 top-0 h-full border-l border-transparent text-center hover:bg-black/5 group-hover:border-black/10'
+										style={{ width: 48 }}>
+										reset
+									</button>
+								</label>
+								<label className='group relative flex h-7 items-center rounded border border-transparent hover:border-black/10'>
+									<span className='absolute left-1'>Width</span>
+									<input
+										name='width'
+										onChange={normalChangeHanlder('setWidth')}
+										placeholder={current?.offsetWidth.toString() || 'null'}
+										type='text'
+										className='h-full bg-transparent py-0.5'
+										style={{ width: 176, paddingLeft: 72, paddingRight: 60 }}
+									/>
+									<button
+										onClick={() => {
+											if (current?.dispatchStyle) current.dispatchStyle({ type: 'setWidth', payload: '' })
+											;(ref.current!.querySelector('input[name="width"]') as HTMLInputElement).value = ''
+										}}
+										className='absolute right-0 top-0 h-full border-l border-transparent text-center hover:bg-black/5 group-hover:border-black/10'
+										style={{ width: 48 }}>
+										reset
+									</button>
+								</label>
 
-							<label className='group relative flex h-7 items-center rounded border border-transparent hover:border-black/10'>
-								<span className='absolute left-1'>Height</span>
-								<input
-									onChange={normalChangeHanlder('setHeight')}
-									name='height'
-									placeholder={current?.offsetHeight.toString() || 'null'}
-									type='text'
-									className='h-full bg-transparent py-0.5'
-									style={{ width: 176, paddingLeft: 72, paddingRight: 60 }}
-								/>
-								<button
-									className='absolute right-0 top-0 h-full border-l border-transparent text-center hover:bg-black/5 group-hover:border-black/10'
-									style={{ width: 48 }}>
-									reset
-								</button>
-							</label>
+								<label className='group relative flex h-7 items-center rounded border border-transparent hover:border-black/10'>
+									<span className='absolute left-1'>Height</span>
+									<input
+										onChange={normalChangeHanlder('setHeight')}
+										name='height'
+										placeholder={current?.offsetHeight.toString() || 'null'}
+										type='text'
+										className='h-full bg-transparent py-0.5'
+										style={{ width: 176, paddingLeft: 72, paddingRight: 60 }}
+									/>
+									<button
+										onClick={() => {
+											if (current?.dispatchStyle) current.dispatchStyle({ type: 'setHeight', payload: '' })
+											;(ref.current!.querySelector('input[name="height"]') as HTMLInputElement).value = ''
+										}}
+										className='absolute right-0 top-0 h-full border-l border-transparent text-center hover:bg-black/5 group-hover:border-black/10'
+										style={{ width: 48 }}>
+										reset
+									</button>
+								</label>
+							</div>
 
 							<div className='border-t border-black/5' />
 
@@ -195,16 +213,16 @@ function Brush() {
 								</button>
 							</div>
 							<div className='group flex h-7 items-center border border-transparent pl-1 hover:border-black/10'>
-								<div className='mr-1 h-4 w-4' style={{ backgroundColor: 'pink' }}></div>
+								<div className='mr-1 h-4 w-4 border' style={{ backgroundColor: 'white' }}></div>
 								<input
-									placeholder='FED2CB'
+									placeholder='FFFFFF'
 									type='text'
 									className='h-full border-l border-r border-transparent bg-transparent px-1 py-0.5 group-hover:border-black/10'
 									style={{ width: 102 }}
 								/>
 								<input
 									type='text'
-									placeholder='100%'
+									placeholder='80%'
 									className='h-full bg-transparent px-1 py-0.5 text-center'
 									style={{ width: 48 }}
 								/>

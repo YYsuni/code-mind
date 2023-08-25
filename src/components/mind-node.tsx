@@ -18,7 +18,12 @@ export default function MindNode({ node, parentRef, siblings, setParentChildren,
 	const { distance, gap, updateLayout, saveFlag } = useContext(MindContext)
 
 	const nodeRef = useRef<HTMLDivElement>(null)
-	const contentRef = useRef<{ getContent: () => string; getType: () => NodeType; getCode: () => string }>(null)
+	const contentRef = useRef<{
+		getContent: () => string
+		getType: () => NodeType
+		getCode: () => string
+		getStyle: () => React.CSSProperties
+	}>(null)
 
 	const [children, setChildren] = useState(node.children)
 
@@ -80,7 +85,8 @@ export default function MindNode({ node, parentRef, siblings, setParentChildren,
 			id: node.id,
 			value: contentRef.current?.getContent() || '',
 			parentID,
-			type: contentRef.current?.getType() || 'text'
+			type: contentRef.current?.getType() || 'text',
+			style: contentRef.current?.getStyle()
 		}
 		if (currentNode.type === 'code') currentNode.code = contentRef.current?.getCode() || ''
 
