@@ -1,7 +1,8 @@
 import { isObject } from '@/utils'
-import { containerState, initialNode } from '../share'
+import { containerState } from '../share'
 import { getStorage, setStorage } from './storage'
 import { toast } from 'sonner'
+import { initialNode } from '@/consts'
 
 export const stateStore = {
 	current: [] as MindNode[],

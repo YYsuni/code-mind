@@ -5,10 +5,11 @@ import { ReactComponent as CenterSVG } from '@/svgs/center.svg'
 import { ReactComponent as BoldSVG } from '@/svgs/bold.svg'
 import { ReactComponent as ItalicSVG } from '@/svgs/italic.svg'
 import { ReactComponent as StrikeThroughSVG } from '@/svgs/strike-through.svg'
-import { MAX_SCALE, MIN_SCALE, containerState, controls } from '@/share'
+import { containerState, controls } from '@/share'
 import { useContext, useEffect, useRef, useState } from 'react'
 import { useSelectState } from '@/hooks/useSelectState'
 import { MindContext } from './code-mind'
+import { MAX_SCALE, MIN_SCALE } from '@/consts'
 
 export default function MindControl() {
 	return (

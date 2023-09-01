@@ -1,9 +1,10 @@
 import { useEffect, useRef } from 'react'
 import { useSpring, animated } from '@react-spring/web'
-import { MAX_SCALE, MIN_SCALE, containerState, controls } from '@/share'
+import { containerState, controls } from '@/share'
 import { createUseGesture, dragAction, pinchAction, wheelAction } from '@use-gesture/react'
 import Scene from '@/themes/sunset/scene'
 import { containerListener } from '@/hooks/useSelectState'
+import { MAX_SCALE, MIN_SCALE } from '@/consts'
 
 const useGesture = createUseGesture([dragAction, pinchAction, wheelAction])
 
